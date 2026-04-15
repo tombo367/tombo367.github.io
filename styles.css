@@ -373,13 +373,67 @@ h3 {
   padding: 2rem;
 }
 
-.detail-list {
-  margin: 1.2rem 0 0;
-  padding-left: 1.2rem;
+.section-heading-compact h2 {
+  max-width: 9ch;
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
 }
 
-.detail-list li + li {
-  margin-top: 0.7rem;
+.info-list,
+.link-list {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.35rem;
+}
+
+.info-item,
+.link-card {
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.info-kicker,
+.link-card-label {
+  display: inline-block;
+  margin: 0 0 0.45rem;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.info-item h3,
+.link-card strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.info-item p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.link-card {
+  color: inherit;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.link-card:hover,
+.link-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(48, 79, 64, 0.26);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.link-card strong {
+  color: var(--leaf);
 }
 
 .contact-banner {
