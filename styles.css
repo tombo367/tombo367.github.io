@@ -302,6 +302,16 @@ h3 {
   padding: 2rem;
 }
 
+.research-section {
+  grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.28fr);
+  align-items: start;
+}
+
+.research-section .section-heading h2 {
+  max-width: 7ch;
+  font-size: clamp(2.6rem, 4.2vw, 4.7rem);
+}
+
 .prose p + p {
   margin-top: 1rem;
 }
@@ -312,12 +322,30 @@ h3 {
   gap: 1rem;
 }
 
+.research-section .cards {
+  grid-template-columns: repeat(3, minmax(210px, 1fr));
+}
+
 .card,
 .news-item {
   padding: 1.35rem;
   border: 1px solid var(--line);
   border-radius: 1.1rem;
   background: rgba(255, 255, 255, 0.42);
+}
+
+.research-section .card {
+  padding: 1.45rem 1.2rem;
+}
+
+.research-section .card h3 {
+  font-size: 1.15rem;
+  line-height: 1.08;
+}
+
+.research-section .card p:not(.card-index) {
+  font-size: 0.96rem;
+  line-height: 1.5;
 }
 
 .card-index,
@@ -374,8 +402,8 @@ h3 {
 }
 
 .section-heading-compact h2 {
-  max-width: 9ch;
-  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  max-width: none;
+  font-size: clamp(1.9rem, 2.8vw, 2.7rem);
 }
 
 .info-list,
@@ -383,6 +411,10 @@ h3 {
   display: grid;
   gap: 0.9rem;
   margin-top: 1.35rem;
+}
+
+.link-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .info-item,
@@ -418,6 +450,7 @@ h3 {
 }
 
 .link-card {
+  display: block;
   color: inherit;
   transition:
     transform 180ms ease,
@@ -474,6 +507,10 @@ h3 {
   }
 
   .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .link-list {
     grid-template-columns: 1fr;
   }
 
