@@ -418,38 +418,12 @@ h3 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.history-list {
-  gap: 0.75rem;
-}
-
 .info-item,
 .link-card {
   padding: 1rem 1.05rem;
   border: 1px solid var(--line);
   border-radius: 1rem;
   background: rgba(255, 255, 255, 0.48);
-}
-
-.history-item {
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--line);
-}
-
-.history-item:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-
-.history-period {
-  margin: 0 0 0.2rem;
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: var(--accent);
-}
-
-.history-item p:last-child {
-  margin: 0;
-  color: var(--muted);
 }
 
 .info-kicker,
