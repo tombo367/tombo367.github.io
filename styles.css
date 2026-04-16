@@ -40,6 +40,10 @@ a {
   text-decoration: none;
 }
 
+.inline-link {
+  text-decoration: underline;
+}
+
 img {
   max-width: 100%;
 }
