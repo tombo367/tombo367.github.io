@@ -455,7 +455,10 @@ h3 {
 }
 
 .link-card {
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
   color: inherit;
   transition:
     transform 180ms ease,
@@ -470,8 +473,55 @@ h3 {
   background: rgba(255, 255, 255, 0.72);
 }
 
+.link-card-content {
+  min-width: 0;
+}
+
 .link-card strong {
   color: var(--leaf);
+}
+
+.link-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border: 1px solid currentColor;
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--leaf);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.link-card-icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.link-card[data-service="github"] .link-card-icon {
+  color: #1f312a;
+  background: rgba(31, 49, 42, 0.08);
+}
+
+.link-card[data-service="linkedin"] .link-card-icon {
+  color: #0d5f8b;
+  background: rgba(13, 95, 139, 0.1);
+}
+
+.link-card[data-service="scholar"] .link-card-icon {
+  color: #1e6bd6;
+  background: rgba(30, 107, 214, 0.1);
+}
+
+.link-card[data-service="arxiv"] .link-card-icon {
+  color: #b23f2d;
+  background: rgba(178, 63, 45, 0.11);
+}
+
+.link-card[data-service="kicc"] .link-card-icon {
+  color: #7f5538;
+  background: rgba(127, 85, 56, 0.1);
 }
 
 .contact-banner {
