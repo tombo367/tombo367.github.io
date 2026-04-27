@@ -555,6 +555,10 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .research-section .cards {
+    grid-template-columns: 1fr;
+  }
+
   .link-list {
     grid-template-columns: 1fr;
   }
@@ -584,6 +588,11 @@ h3 {
   h1 {
     max-width: none;
     font-size: clamp(2.4rem, 11vw, 3.4rem);
+  }
+
+  .research-section .section-heading h2 {
+    max-width: none;
+    font-size: clamp(2.4rem, 12vw, 3.4rem);
   }
 
   .hero-text {
@@ -670,6 +679,10 @@ h3 {
   .split-section,
   .contact-banner {
     margin-bottom: 1rem;
+  }
+
+  .research-section .card {
+    padding: 1.2rem;
   }
 
   .hero-highlights li,
