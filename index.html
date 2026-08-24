@@ -15,7 +15,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Public+Sans:wght@400;500;600;700&display=swap"
             rel="stylesheet"
         />
         <script type="application/ld+json">
@@ -73,19 +73,18 @@
                             PhD Student | Cavendish Laboratory, University of
                             Cambridge
                         </p>
-                        <h1>Studying galaxy clusters to understand the universe.</h1>
+                        <h1>Trying to make sense of the universe, one galaxy cluster at a time.</h1>
                         <p class="hero-text">
-                            I am a PhD student at the University of Cambridge,
+                            I'm a PhD student at the University of Cambridge,
                             working on cosmology from the cosmic microwave
                             background and the large-scale structure it traces.
-                            My current focus is on confirming galaxy clusters
-                            detected via the thermal Sunyaev-Zel'dovich effect
-                            using machine learning based methods, as part of
-                            extracting robust cosmological constraints from
-                            cluster surveys. I am also part of the
-                            Infosys-Cambridge AI Centre, where I explore how
-                            machine learning can support this kind of
-                            cosmological inference.
+                            Right now that mostly means confirming galaxy
+                            clusters picked up via the thermal
+                            Sunyaev-Zel'dovich effect, using machine learning to
+                            separate the real detections from noise. I'm also
+                            part of the Infosys-Cambridge AI Centre, where I
+                            get to poke at where else ML is actually useful for
+                            this kind of work.
                         </p>
                         <ul
                             class="hero-highlights"
@@ -167,42 +166,37 @@
                     </div>
                     <div class="section-content prose">
                         <p>
-                            I am based at the Cavendish Laboratory at the
-                            University of Cambridge, where I work on
-                            cosmology, in particular extracting cosmological
-                            information from galaxy clusters and the cosmic
-                            microwave background. I am also associated with the
-                            Kavli Institute for Cosmology, Cambridge and part of
-                            the Infosys-Cambridge AI Centre.
+                            I'm based at the Cavendish Laboratory, University of
+                            Cambridge, where I work on cosmology: mostly
+                            pulling cosmological information out of galaxy
+                            clusters and the cosmic microwave background. I'm
+                            also affiliated with the Kavli Institute for
+                            Cosmology and the Infosys-Cambridge AI Centre.
                         </p>
                         <p>
-                            I am currently working on cluster confirmation for
-                            galaxy clusters detected via the thermal
-                            Sunyaev-Zel'dovich (tSZ) effect, using machine
-                            learning based methods. Distinguishing genuine
-                            clusters from noise and contaminants in tSZ survey
-                            catalogues is an important step in turning cluster
-                            detections into reliable cosmological constraints,
-                            and I am interested in how ML can make that
-                            confirmation step more accurate and scalable. More
-                            broadly, my interests include scientific machine
-                            learning and its application to a wider range of
-                            cosmology research questions. I am supervised by
+                            At the moment I'm working on confirming clusters
+                            detected via the thermal Sunyaev-Zel'dovich (tSZ)
+                            effect, using machine learning. tSZ surveys throw
+                            up a lot of candidates, but not all of them turn
+                            out to be real clusters, so getting that
+                            confirmation step right matters if the resulting
+                            catalogue is going to be much use for cosmology.
+                            Boris Bolliet
                             <a
                                 href="https://borisbolliet.github.io/"
                                 target="_blank"
                                 rel="noreferrer"
                                 class="inline-link"
-                                >Boris Bolliet</a
-                            >.
+                                >supervises</a
+                            >
+                            my PhD.
                         </p>
                         <p>
-                            I began this line of work in my master&apos;s
-                            dissertation for the MPhil in Data Intensive Science
-                            at Cambridge, where I investigated parameter
-                            inference using diffusion models. That work
-                            continues to shape how I think about applying
-                            machine learning to cosmology.
+                            This all started with my MPhil dissertation in
+                            Data Intensive Science at Cambridge, where I
+                            looked at parameter inference using diffusion
+                            models. It's stuck with me since, in how I think
+                            about using machine learning for cosmology.
                         </p>
                         <p>
                             Outside research, I enjoy sport, and you're likely
@@ -228,31 +222,28 @@
                             <p class="card-index">01</p>
                             <h3>tSZ cluster confirmation</h3>
                             <p>
-                                Using machine learning based methods to confirm
-                                galaxy clusters detected via the thermal
-                                Sunyaev-Zel'dovich effect, separating genuine
-                                detections from noise and contaminants.
+                                Working out which cluster candidates picked up
+                                via the thermal Sunyaev-Zel'dovich effect are
+                                real, and which are noise, using machine
+                                learning.
                             </p>
                         </article>
                         <article class="card">
                             <p class="card-index">02</p>
                             <h3>Cosmology from the CMB</h3>
                             <p>
-                                Extracting cosmological information from CMB
-                                observations, including secondary anisotropies
-                                such as the thermal Sunyaev-Zel'dovich effect,
-                                to constrain fundamental parameters of the
-                                universe.
+                                Pulling cosmological constraints out of CMB
+                                data, including secondary effects like the
+                                thermal Sunyaev-Zel'dovich signal.
                             </p>
                         </article>
                         <article class="card">
                             <p class="card-index">03</p>
                             <h3>Agentic tools for research</h3>
                             <p>
-                                Exploring multi-agent workflows, such as
-                                Cmbagent, that can write code, run pipelines,
-                                and assist with parts of the cosmological
-                                research process alongside a human scientist.
+                                Playing around with agent-based tools, like
+                                Cmbagent, that can write code and run
+                                pipelines alongside a human scientist.
                             </p>
                         </article>
                     </div>
@@ -609,26 +600,55 @@
                         aria-label="Personal photo gallery"
                     >
                         <figure class="gallery-item" role="listitem">
-                            <img
-                                src="assets/images/IMG_5191.JPG"
-                                alt="Tom rowing on the water with a crew"
-                            />
+                            <button
+                                class="gallery-trigger"
+                                type="button"
+                                aria-label="Open larger photo: Tom rowing on the water with a crew"
+                            >
+                                <img
+                                    src="assets/images/IMG_5191.JPG"
+                                    alt="Tom rowing on the water with a crew"
+                                />
+                            </button>
                         </figure>
                         <figure class="gallery-item" role="listitem">
-                            <img
-                                src="assets/images/8CE70B43-F69A-4733-A7F5-C829E1C548A9_1_105_c.jpeg"
-                                alt="Tom fencing indoors during a bout"
-                            />
+                            <button
+                                class="gallery-trigger"
+                                type="button"
+                                aria-label="Open larger photo: Tom fencing indoors during a bout"
+                            >
+                                <img
+                                    src="assets/images/8CE70B43-F69A-4733-A7F5-C829E1C548A9_1_105_c.jpeg"
+                                    alt="Tom fencing indoors during a bout"
+                                />
+                            </button>
                         </figure>
                         <figure class="gallery-item" role="listitem">
-                            <img
-                                src="assets/images/1E73659E-8004-42DC-8A34-F3957B123CCE_1_105_c.jpeg"
-                                alt="Tom hiking in the mountains with a friend"
-                            />
+                            <button
+                                class="gallery-trigger"
+                                type="button"
+                                aria-label="Open larger photo: Tom hiking in the mountains with a friend"
+                            >
+                                <img
+                                    src="assets/images/1E73659E-8004-42DC-8A34-F3957B123CCE_1_105_c.jpeg"
+                                    alt="Tom hiking in the mountains with a friend"
+                                />
+                            </button>
                         </figure>
                     </div>
                 </section>
             </main>
+
+            <div class="lightbox" id="lightbox" hidden>
+                <button
+                    class="lightbox-close"
+                    type="button"
+                    aria-label="Close photo"
+                >
+                    &times;
+                </button>
+                <img class="lightbox-image" id="lightbox-image" src="" alt="" />
+            </div>
 
             <footer class="site-footer">
                 <p>&copy; <span id="year"></span> Tom Borrett</p>
