@@ -571,6 +571,86 @@ h3 {
   object-fit: cover;
 }
 
+.gallery-trigger {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  transition: transform 220ms ease;
+}
+
+.gallery-trigger:hover,
+.gallery-trigger:focus-visible {
+  transform: scale(1.03);
+}
+
+.gallery-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  background: rgba(4, 6, 14, 0.88);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox.is-visible {
+  opacity: 1;
+}
+
+.lightbox-image {
+  max-width: min(90vw, 1100px);
+  max-height: 85vh;
+  border-radius: 0.9rem;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-strong);
+  color: var(--ink);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
+  background: var(--surface-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-trigger,
+  .lightbox {
+    transition: none;
+  }
+}
+
 .contact-banner {
   display: flex;
   justify-content: space-between;
