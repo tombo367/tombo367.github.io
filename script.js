@@ -4,27 +4,48 @@ if (yearNode) {
   yearNode.textContent = new Date().getFullYear();
 }
 
-const revealItems = document.querySelectorAll(".reveal");
+const lightbox = document.querySelector("#lightbox");
+const lightboxImage = document.querySelector("#lightbox-image");
+const lightboxClose = document.querySelector(".lightbox-close");
+const galleryTriggers = document.querySelectorAll(".gallery-trigger");
 
-if ("IntersectionObserver" in window) {
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
+if (lightbox && lightboxImage) {
+  let lastFocused = null;
 
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    },
-    {
-      threshold: 0.16,
-      rootMargin: "0px 0px -5% 0px",
-    }
-  );
+  const openLightbox = (trigger) => {
+    const img = trigger.querySelector("img");
+    if (!img) return;
 
-  revealItems.forEach((item) => revealObserver.observe(item));
-} else {
-  revealItems.forEach((item) => item.classList.add("is-visible"));
+    lastFocused = trigger;
+    lightboxImage.src = img.src;
+    lightboxImage.alt = img.alt;
+    lightbox.hidden = false;
+    requestAnimationFrame(() => lightbox.classList.add("is-visible"));
+    lightboxClose.focus();
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeLightbox = () => {
+    lightbox.classList.remove("is-visible");
+    document.body.style.overflow = "";
+    setTimeout(() => {
+      lightbox.hidden = true;
+      lightboxImage.src = "";
+    }, 150);
+    if (lastFocused) lastFocused.focus();
+  };
+
+  galleryTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => openLightbox(trigger));
+  });
+
+  lightboxClose.addEventListener("click", closeLightbox);
+
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !lightbox.hidden) closeLightbox();
+  });
 }
