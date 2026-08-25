@@ -10,13 +10,27 @@
         />
         <meta
             name="description"
-            content="Academic website for Tom Borrett: research, publications, affiliations, and contact information."
+            content="Tom Borrett is a PhD student at the Cavendish Laboratory, University of Cambridge, working on galaxy cluster cosmology and machine learning."
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Public+Sans:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
+            rel="icon"
+            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%AD%3C/text%3E%3C/svg%3E"
+        />
+        <meta property="og:type" content="profile" />
+        <meta
+            property="og:title"
+            content="Tom Borrett | Cosmology and AI for Science"
+        />
+        <meta
+            property="og:description"
+            content="PhD student at the Cavendish Laboratory, University of Cambridge, working on galaxy cluster cosmology and machine learning."
+        />
+        <meta property="og:image" content="assets/images/tom-borrett.jpg" />
+        <meta property="og:url" content="https://tombo367.github.io/" />
+        <meta name="twitter:card" content="summary" />
+        <meta
+            name="twitter:title"
+            content="Tom Borrett | Cosmology and AI for Science"
         />
         <script type="application/ld+json">
             {
@@ -67,13 +81,15 @@
             </header>
 
             <main id="top">
-                <section class="hero reveal">
+                <section class="hero">
                     <div class="hero-copy">
                         <p class="eyebrow">
-                            PhD Student | Cavendish Laboratory, University of
+                            PhD Student, Cavendish Laboratory, University of
                             Cambridge
                         </p>
-                        <h1>Using AI to accelerate scientific discovery.</h1>
+                        <h1>
+                            Trying to tell real galaxy clusters from noise.
+                        </h1>
                         <p class="hero-text">
                             I'm a PhD student at the University of Cambridge,
                             working on cosmology from the cosmic microwave
@@ -117,6 +133,9 @@
                                 class="profile-photo"
                                 src="assets/images/tom-borrett.jpg"
                                 alt="Portrait of Tom Borrett"
+                                width="750"
+                                height="1000"
+                                fetchpriority="high"
                             />
                         </div>
                         <div class="profile-meta">
@@ -159,7 +178,7 @@
                     </aside>
                 </section>
 
-                <section class="grid-section reveal" id="about">
+                <section class="grid-section" id="about">
                     <div class="section-heading">
                         <p class="section-label">About me</p>
                         <h2>How I got here</h2>
@@ -210,7 +229,7 @@
                 </section>
 
                 <section
-                    class="grid-section research-section reveal"
+                    class="grid-section research-section"
                     id="research"
                 >
                     <div class="section-heading">
@@ -249,7 +268,7 @@
                     </div>
                 </section>
 
-                <section class="grid-section reveal" id="publications">
+                <section class="grid-section" id="publications">
                     <div class="section-heading">
                         <p class="section-label">My work</p>
                         <h2>Selected work</h2>
@@ -300,7 +319,7 @@
                     </div>
                 </section>
 
-                <section class="split-section reveal" id="teaching">
+                <section class="split-section" id="teaching">
                     <div class="split-panel">
                         <div class="section-heading section-heading-compact">
                             <p class="section-label">Where I am</p>
@@ -385,7 +404,7 @@
                     </div>
                 </section>
 
-                <section class="grid-section reveal">
+                <section class="grid-section">
                     <div class="section-heading">
                         <p class="section-label">Find me online</p>
                         <h2>Profiles and links</h2>
@@ -522,7 +541,7 @@
                     </div>
                 </section>
 
-                <section class="grid-section reveal">
+                <section class="grid-section">
                     <div class="section-heading">
                         <p class="section-label">What I am up to</p>
                         <h2>Recent updates</h2>
@@ -557,7 +576,7 @@
                     </div>
                 </section>
 
-                <section class="contact-banner reveal" id="contact">
+                <section class="contact-banner" id="contact">
                     <div>
                         <p class="section-label">Get in touch</p>
                         <h2>Get in touch</h2>
@@ -582,7 +601,7 @@
                     </div>
                 </section>
 
-                <section class="grid-section gallery-section reveal" id="gallery">
+                <section class="grid-section gallery-section" id="gallery">
                     <div class="section-heading">
                         <p class="section-label">Away from the desk</p>
                         <h2>Life outside research</h2>
@@ -608,6 +627,9 @@
                                 <img
                                     src="assets/images/IMG_5191.JPG"
                                     alt="Tom rowing on the water with a crew"
+                                    width="1600"
+                                    height="1067"
+                                    loading="lazy"
                                 />
                             </button>
                         </figure>
@@ -620,6 +642,9 @@
                                 <img
                                     src="assets/images/8CE70B43-F69A-4733-A7F5-C829E1C548A9_1_105_c.jpeg"
                                     alt="Tom fencing indoors during a bout"
+                                    width="1086"
+                                    height="724"
+                                    loading="lazy"
                                 />
                             </button>
                         </figure>
@@ -632,6 +657,9 @@
                                 <img
                                     src="assets/images/1E73659E-8004-42DC-8A34-F3957B123CCE_1_105_c.jpeg"
                                     alt="Tom hiking in the mountains with a friend"
+                                    width="768"
+                                    height="1024"
+                                    loading="lazy"
                                 />
                             </button>
                         </figure>
@@ -639,7 +667,14 @@
                 </section>
             </main>
 
-            <div class="lightbox" id="lightbox" hidden>
+            <div
+                class="lightbox"
+                id="lightbox"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Photo viewer"
+                hidden
+            >
                 <button
                     class="lightbox-close"
                     type="button"
