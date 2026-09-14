@@ -4,6 +4,33 @@ if (yearNode) {
   yearNode.textContent = new Date().getFullYear();
 }
 
+const menuToggle = document.querySelector(".menu-toggle");
+const sidebar = document.querySelector(".site-header");
+const sidebarLinks = document.querySelectorAll(".site-nav a");
+
+if (menuToggle && sidebar) {
+  const setMenuOpen = (isOpen) => {
+    sidebar.classList.toggle("is-open", isOpen);
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.textContent = isOpen ? "Close" : "Menu";
+  };
+
+  menuToggle.addEventListener("click", () => {
+    setMenuOpen(!sidebar.classList.contains("is-open"));
+  });
+
+  sidebarLinks.forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && sidebar.classList.contains("is-open")) {
+      setMenuOpen(false);
+      menuToggle.focus();
+    }
+  });
+}
+
 const lightbox = document.querySelector("#lightbox");
 const lightboxImage = document.querySelector("#lightbox-image");
 const lightboxClose = document.querySelector(".lightbox-close");

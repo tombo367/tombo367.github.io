@@ -72,20 +72,49 @@
         <script defer src="script.js"></script>
     </head>
     <body>
+        <a class="skip-link" href="#main">Skip to content</a>
+        <button
+            class="menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="site-sidebar"
+        >
+            Menu
+        </button>
         <div class="page-shell">
-            <header class="site-header">
-                <a class="brand" href="#top">Tom Borrett</a>
+            <header class="site-header" id="site-sidebar">
+                <div class="sidebar-image" aria-hidden="true"></div>
+                <div class="sidebar-shade" aria-hidden="true"></div>
+                <div class="sidebar-content">
+                    <a class="sidebar-portrait" href="#top">
+                        <img
+                            src="assets/images/tom-borrett.jpg"
+                            alt="Portrait of Tom Borrett"
+                            width="750"
+                            height="1000"
+                        />
+                    </a>
+                    <a class="brand" href="#top">Tom Borrett</a>
+                    <p class="sidebar-tagline">
+                        Cosmology, machine learning, and scientific discovery
+                    </p>
+                    <div class="sidebar-social" aria-label="Profiles">
+                        <a href="mailto:tb711@cam.ac.uk">Email</a>
+                        <a href="https://github.com/tombo367" target="_blank" rel="noreferrer">GitHub</a>
+                        <a href="https://www.linkedin.com/in/tom-borrett-50383a227/" target="_blank" rel="noreferrer">LinkedIn</a>
+                    </div>
                 <nav class="site-nav" aria-label="Primary navigation">
-                    <a href="#about">About me</a>
-                    <a href="#research">What I study</a>
-                    <a href="#publications">My work</a>
-                    <a href="#teaching">Where I am</a>
+                    <a href="#about">Bio</a>
+                    <a href="#research">Research</a>
+                    <a href="#publications">Articles</a>
+                    <a href="#teaching">Background</a>
+                    <a href="#gallery">Elsewhere</a>
                     <a href="#contact">Contact</a>
-                    <a href="#gallery">Gallery</a>
                 </nav>
+                </div>
             </header>
 
-            <main id="top">
+            <main id="main" tabindex="-1">
                 <section class="hero">
                     <div class="hero-copy">
                         <p class="eyebrow">
