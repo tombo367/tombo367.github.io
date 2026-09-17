@@ -410,10 +410,19 @@ h3 {
   color: var(--muted);
 }
 
+.link-groups {
+  display: grid;
+  gap: 1.75rem;
+  margin-top: 1.25rem;
+}
+
+.link-group .info-kicker {
+  margin-bottom: 0.5rem;
+}
+
 .link-list {
   display: grid;
   gap: 0;
-  margin-top: 1.25rem;
 }
 
 .link-card {
@@ -881,7 +890,7 @@ h3 { font-size: 1.32rem; line-height: 1.25; }
 .grid-section .section-content,
 .grid-section > .cards,
 .grid-section > .publication-list,
-.grid-section > .link-list,
+.grid-section > .link-groups,
 .grid-section > .news-feed,
 .grid-section > .gallery-grid { max-width: 53rem; }
 
