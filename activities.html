@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Activity Heatmaps | Tom Borrett</title>
+        <meta
+            name="description"
+            content="Heatmaps of Tom Borrett's rowing, running, cycling, skiing and walking, built from Strava data."
+        />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%AD%3C/text%3E%3C/svg%3E"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Marcellus+SC&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            crossorigin=""
+        />
+        <link rel="stylesheet" href="styles.css" />
+        <style>
+            .heatmap-section { border-bottom: 0; }
+            .place-picker,
+            .sport-picker {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.45rem;
+                margin: 1.4rem 0 0;
+                padding: 0;
+                list-style: none;
+            }
+            .chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.45rem;
+                padding: 0.35rem 0.8rem;
+                border: 1px solid var(--line);
+                border-radius: 999px;
+                background: #fff;
+                color: var(--ink);
+                font: 600 0.8rem/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+                cursor: pointer;
+            }
+            .chip:hover { border-color: var(--accent); }
+            .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+            .chip[aria-pressed="true"] {
+                border-color: var(--accent);
+                background: var(--accent);
+                color: #fff;
+            }
+            .chip .count { font-weight: 400; opacity: 0.7; }
+            .sport-picker .chip[aria-pressed="false"] { opacity: 0.45; }
+            .sport-picker .chip[aria-pressed="true"] {
+                background: #10161b;
+                border-color: #10161b;
+            }
+            .swatch {
+                width: 0.75rem;
+                height: 0.75rem;
+                border-radius: 50%;
+                background: var(--c);
+                box-shadow: 0 0 6px var(--c);
+            }
+            .map-frame {
+                position: relative;
+                margin-top: 1.2rem;
+                border: 1px solid var(--line);
+                background: #0e1114;
+            }
+            #map {
+                height: min(72vh, 44rem);
+                min-height: 22rem;
+                background: #0e1114;
+            }
+            .map-caption {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                gap: 0.3rem 1rem;
+                margin-top: 0.6rem;
+                color: var(--muted);
+                font-size: 0.84rem;
+            }
+            .map-caption p { margin: 0; }
+            .leaflet-tile-pane { filter: brightness(0.5) contrast(1.1); }
+            .leaflet-container { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+            .back-link {
+                display: inline-block;
+                margin-bottom: 1.2rem;
+                font-size: 0.85rem;
+            }
+        </style>
+    </head>
+    <body>
+        <a class="skip-link" href="#main">Skip to content</a>
+        <button
+            class="menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="site-sidebar"
+        >
+            Menu
+        </button>
+        <div class="page-shell">
+            <header class="site-header" id="site-sidebar">
+                <div class="sidebar-image" aria-hidden="true"></div>
+                <div class="sidebar-shade" aria-hidden="true"></div>
+                <div class="sidebar-content">
+                    <a class="sidebar-portrait" href="index.html">
+                        <img
+                            src="assets/images/tom-borrett.jpg"
+                            alt="Portrait of Tom Borrett"
+                            width="750"
+                            height="1000"
+                        />
+                    </a>
+                    <a class="brand" href="index.html">Tom Borrett</a>
+                    <p class="sidebar-tagline">
+                        Cosmology, machine learning, and scientific discovery
+                    </p>
+                    <div class="sidebar-social" aria-label="Profiles">
+                        <a href="mailto:tb711@cam.ac.uk">Email</a>
+                        <a href="https://github.com/tombo367" target="_blank" rel="noreferrer">GitHub</a>
+                        <a href="https://www.linkedin.com/in/tom-borrett-50383a227/" target="_blank" rel="noreferrer">LinkedIn</a>
+                    </div>
+                    <nav class="site-nav" aria-label="Primary navigation">
+                        <a href="index.html#about">Bio</a>
+                        <a href="index.html#research">Research</a>
+                        <a href="index.html#publications">Articles</a>
+                        <a href="index.html#teaching">Background</a>
+                        <a href="index.html#gallery">Elsewhere</a>
+                        <a href="activities.html" aria-current="page">Heatmaps</a>
+                        <a href="index.html#contact">Contact</a>
+                    </nav>
+                </div>
+            </header>
+
+            <main id="main" tabindex="-1">
+                <section class="grid-section heatmap-section">
+                    <a class="back-link" href="index.html#gallery">&larr; Back to main page</a>
+                    <div class="section-heading">
+                        <p class="section-label">Away from the desk</p>
+                        <h2>Where I row, run, and ride</h2>
+                        <p class="section-lede">
+                            Every GPS track I've recorded on Strava, layered on
+                            top of each other. The brighter a line, the more
+                            often I've been there. Pick a place to zoom in, or
+                            toggle sports on and off.
+                        </p>
+                    </div>
+
+                    <ul class="place-picker" id="places" aria-label="Places"></ul>
+                    <ul class="sport-picker" id="sports" aria-label="Sports"></ul>
+
+                    <div class="map-frame">
+                        <div id="map" role="img" aria-label="Map of activity tracks, coloured by sport"></div>
+                    </div>
+                    <div class="map-caption">
+                        <p id="map-summary">Loading activities&hellip;</p>
+                        <p>Start and finish of each track trimmed for privacy.</p>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="site-footer">
+                <p>&copy; <span id="year"></span> Tom Borrett</p>
+                <p>Basemap &copy; Esri, &copy; OpenStreetMap contributors.</p>
+            </footer>
+        </div>
+
+        <script
+            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""
+        ></script>
+        <script src="script.js"></script>
+        <script src="heatmap.js"></script>
+    </body>
+</html>
