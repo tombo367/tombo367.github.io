@@ -20,8 +20,8 @@
         />
         <link
             rel="stylesheet"
-            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+            href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css"
+            integrity="sha384-Nq6PQ+9vJPvw7U/VfDELyrWoGQMsy0gi6QShhaSrGzkpF5KkM40csg2leky+YMTd"
             crossorigin=""
         />
         <link rel="stylesheet" href="styles.css" />
@@ -89,8 +89,7 @@
                 font-size: 0.84rem;
             }
             .map-caption p { margin: 0; }
-            .leaflet-tile-pane { filter: brightness(0.5) contrast(1.1); }
-            .leaflet-container { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+            .maplibregl-map { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
             .back-link {
                 display: inline-block;
                 margin-bottom: 1.2rem;
@@ -147,13 +146,7 @@
                     <a class="back-link" href="index.html#gallery">&larr; Back to main page</a>
                     <div class="section-heading">
                         <p class="section-label">Away from the desk</p>
-                        <h2>Where I row, run, and ride</h2>
-                        <p class="section-lede">
-                            Every GPS track I've recorded on Strava, layered on
-                            top of each other. The brighter a line, the more
-                            often I've been there. Pick a place to zoom in, or
-                            toggle sports on and off.
-                        </p>
+                        <h2>Heatmaps</h2>
                     </div>
 
                     <ul class="place-picker" id="places" aria-label="Places"></ul>
@@ -164,7 +157,7 @@
                     </div>
                     <div class="map-caption">
                         <p id="map-summary">Loading activities&hellip;</p>
-                        <p>Start and finish of each track trimmed for privacy.</p>
+                        <p>Track ends trimmed for privacy.</p>
                     </div>
                 </section>
             </main>
@@ -176,8 +169,8 @@
         </div>
 
         <script
-            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"
+            integrity="sha384-GfxBM9x46BaAFxtCq39Fxir8fNZ4VDnwgfi6Kzi5/F1tAFsm0amuuV8kd+Pxzuf/"
             crossorigin=""
         ></script>
         <script src="script.js"></script>

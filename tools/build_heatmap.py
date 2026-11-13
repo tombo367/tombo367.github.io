@@ -203,12 +203,13 @@ def main(data_dir):
         # robust bounds: 1st-99th percentile so one long outing doesn't zoom out the view
         lats.sort(); lons.sort()
         q = lambda v, f: v[min(len(v) - 1, int(f * len(v)))]
+        lo, hi = (.01, .99) if len(c["acts"]) >= 20 else (0, 1)
         name = place_name(c["centre"])
         places.append({
             "name": name,
             "count": len(c["acts"]),
             "sports": dict(Counter(a["sport"] for a in c["acts"])),
-            "bounds": [[q(lats, .01), q(lons, .01)], [q(lats, .99), q(lons, .99)]],
+            "bounds": [[q(lats, lo), q(lons, lo)], [q(lats, hi), q(lons, hi)]],
         })
 
     out = {
