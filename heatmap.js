@@ -105,7 +105,8 @@
   );
 
   const dataReady = fetch("assets/data/heatmap.json").then((r) => r.json());
-  const mapReady = new Promise((resolve) => map.on("load", resolve));
+  // Draw tracks as soon as the style is ready, without waiting for every basemap tile.
+  const mapReady = new Promise((resolve) => (map.isStyleLoaded() ? resolve() : map.once("style.load", resolve)));
 
   Promise.all([dataReady, mapReady])
     .then(([data]) => {
@@ -235,7 +236,7 @@
         map.fitBounds([[w, s], [e, n]], {
           padding: 30,
           maxZoom: 13.5,
-          duration: reduceMotion ? 0 : 3500,
+          duration: reduceMotion ? 0 : 2000,
           essential: true,
         });
       };
