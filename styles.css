@@ -24,6 +24,8 @@ footer {
 
 main { padding-top: 4rem; }
 
+nav { margin-bottom: 2rem; font-size: 0.9rem; color: var(--muted); }
+
 h1 { margin: 0; font-size: 2.2rem; font-weight: normal; }
 h2 {
   margin: 2.5rem 0 0.8rem;
