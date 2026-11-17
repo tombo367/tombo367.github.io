@@ -214,7 +214,7 @@
         let on = true;
         chip(
           sportsEl,
-          `<span class="swatch" style="--c:${SPORTS[s].color}"></span>${SPORTS[s].label} <span class="count">${data.sports[s]}</span>`,
+          `<span class="swatch" style="--c:${SPORTS[s].color}"></span>${SPORTS[s].label}`,
           true,
           (btn) => {
             on = !on;
@@ -241,20 +241,19 @@
         });
       };
       placeButtons.push(
-        chip(placesEl, `Globe <span class="count">${data.tracks.length}</span>`, true, (b) => {
+        chip(placesEl, "Globe", true, (b) => {
           press(b);
           map.flyTo({ ...GLOBE_VIEW, center: map.getCenter(), pitch: 0, bearing: 0, duration: reduceMotion ? 0 : 2500 });
         })
       );
       data.places.forEach((p, i) => {
-        placeButtons.push(chip(placesEl, `${p.name} <span class="count">${p.count}</span>`, false, () => goToPlace(i)));
+        placeButtons.push(chip(placesEl, p.name, false, () => goToPlace(i)));
       });
 
       map.on("click", "place-dots", (e) => goToPlace(e.features[0].properties.i));
       map.on("mouseenter", "place-dots", () => { map.getCanvas().style.cursor = "pointer"; });
       map.on("mouseleave", "place-dots", () => { map.getCanvas().style.cursor = ""; });
 
-      summaryEl.textContent = `${data.tracks.length} activities across ${data.places.length} places. Drag to spin, scroll to zoom, right-drag to tilt.`;
       // Deep links: index.html#cambridge, #mont-blanc, ...
       const slug = (n) => n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       const fromHash = () => {
@@ -266,6 +265,6 @@
       else spin();
     })
     .catch(() => {
-      summaryEl.textContent = "Couldn't load activity data.";
+      if (summaryEl) summaryEl.textContent = "Couldn't load activity data.";
     });
 })();
