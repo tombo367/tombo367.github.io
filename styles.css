@@ -1,18 +1,26 @@
 :root {
-  --ink: #1d1d1f;
-  --muted: #6b6b70;
-  --line: #e2e2e5;
-  --accent: #1f5fa8;
-  --bg: #ffffff;
+  --ink: #e8edf2;
+  --muted: #9aa8b6;
+  --line: rgba(232, 237, 242, 0.16);
+  --accent: #8fc8e8;
+  --panel: rgba(8, 18, 28, 0.55);
+  --night: #050d17;
 }
 
 * { box-sizing: border-box; }
 
+html { background: var(--night); }
+
 body {
   margin: 0;
-  background: var(--bg);
+  min-height: 100vh;
   color: var(--ink);
-  font: 17px/1.6 Georgia, "Times New Roman", serif;
+  font: 17px/1.65 Georgia, "Iowan Old Style", "Times New Roman", serif;
+  background:
+    linear-gradient(rgba(5, 13, 23, 0.62), rgba(5, 13, 23, 0.82)),
+    url("assets/images/cosmology-field.jpg") center / cover fixed no-repeat,
+    var(--night);
+  -webkit-font-smoothing: antialiased;
 }
 
 main,
@@ -24,32 +32,39 @@ footer {
 
 main { padding-top: 4rem; }
 
-nav { margin-bottom: 2rem; font-size: 0.9rem; color: var(--muted); }
+nav { margin-bottom: 2.5rem; font-size: 0.9rem; color: var(--muted); }
 
-h1 { margin: 0; font-size: 2.2rem; font-weight: normal; }
-h2 {
-  margin: 2.5rem 0 0.8rem;
-  font-size: 1.25rem;
+h1 {
+  margin: 0;
+  font-size: 2.4rem;
   font-weight: normal;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 0.3rem;
+  letter-spacing: 0.03em;
 }
-.subtitle { margin: 0.2rem 0 1.8rem; color: var(--muted); }
+h2 {
+  margin: 2.8rem 0 0.9rem;
+  font-size: 1.2rem;
+  font-weight: normal;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.35rem;
+}
+.subtitle { margin: 0.2rem 0 2rem; color: var(--muted); }
 
 a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a:hover { text-decoration: underline; text-underline-offset: 0.15em; }
 
 ul { padding-left: 1.2rem; }
 li { margin-bottom: 0.6rem; }
 .year { color: var(--muted); margin-right: 0.4rem; }
 .meta { display: block; color: var(--muted); font-size: 0.92rem; }
+.meta strong { color: var(--ink); font-weight: normal; }
 .links { display: flex; flex-wrap: wrap; gap: 0 1.4rem; padding: 0; list-style: none; }
 
 footer {
   margin-top: 4rem;
   padding-bottom: 2rem;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 /* Strava heatmap globe */
@@ -57,7 +72,7 @@ footer {
 .sport-picker {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.4rem;
   margin: 1rem 0 0;
   padding: 0;
   list-style: none;
@@ -68,36 +83,40 @@ footer {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.3rem 0.75rem;
+  padding: 0.25rem 0.75rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: #fff;
+  background: var(--panel);
   color: var(--ink);
-  font: 600 0.78rem/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 0.85rem/1.3 Georgia, "Iowan Old Style", serif;
   cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, opacity 0.15s;
 }
 .chip:hover { border-color: var(--accent); }
 .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
-.chip .count { font-weight: 400; opacity: 0.7; }
-.sport-picker .chip[aria-pressed="false"] { opacity: 0.45; }
-.sport-picker .chip[aria-pressed="true"] { background: #10161b; border-color: #10161b; }
+.chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: rgba(143, 200, 232, 0.16);
+  color: #fff;
+}
+.chip .count { color: var(--muted); font-size: 0.8rem; }
+.sport-picker .chip[aria-pressed="false"] { opacity: 0.4; }
+.sport-picker .chip[aria-pressed="true"] { border-color: var(--line); background: var(--panel); }
 .swatch {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.65rem;
+  height: 0.65rem;
   border-radius: 50%;
   background: var(--c);
   box-shadow: 0 0 6px var(--c);
 }
 .map-frame {
   margin-top: 1rem;
-  border: 1px solid var(--line);
-  background: #0e1114;
+  background: radial-gradient(circle at center, rgba(143, 200, 232, 0.07), transparent 60%);
 }
 #map {
   height: min(70vh, 34rem);
   min-height: 20rem;
-  background: #0e1114;
+  background: transparent;
 }
 .map-caption {
   display: flex;
@@ -109,4 +128,20 @@ footer {
   font-size: 0.84rem;
 }
 .map-caption p { margin: 0; }
-.maplibregl-map { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+/* Dark map controls to match the page */
+.maplibregl-map { font-family: Georgia, "Iowan Old Style", serif; }
+.maplibregl-ctrl-group {
+  background: var(--panel) !important;
+  border: 1px solid var(--line);
+  box-shadow: none !important;
+}
+.maplibregl-ctrl-group button + button { border-top-color: var(--line) !important; }
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter: invert(1) opacity(0.75); }
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-attrib.maplibregl-compact {
+  background: var(--panel) !important;
+  color: var(--muted);
+}
+.maplibregl-ctrl-attrib a { color: var(--muted); }
+.maplibregl-ctrl-attrib-button { filter: invert(1); }

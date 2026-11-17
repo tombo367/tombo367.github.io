@@ -79,7 +79,7 @@
         },
       },
       layers: [
-        { id: "space", type: "background", paint: { "background-color": "#0e1114" } },
+        { id: "space", type: "background", paint: { "background-color": "#0b1520" } },
         {
           id: "base",
           type: "raster",
@@ -204,7 +204,7 @@
         },
         paint: {
           "text-color": "#ffffff",
-          "text-halo-color": "#0e1114",
+          "text-halo-color": "#0b1520",
           "text-halo-width": 1.4,
         },
       });
