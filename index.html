@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Tom Borrett PhD | Cosmology and AI for Science | University of Cambridge</title>
+        <title>Tom Borrett | Cosmology and AI for Science | University of Cambridge</title>
         <meta
             name="google-site-verification"
             content="CymChCxU9WW_LHyz4WQ675WZ47FH7j3VW-xhcDC9bR4"
@@ -17,10 +17,7 @@
             href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%AD%3C/text%3E%3C/svg%3E"
         />
         <meta property="og:type" content="profile" />
-        <meta
-            property="og:title"
-            content="Tom Borrett | Cosmology and AI for Science"
-        />
+        <meta property="og:title" content="Tom Borrett | Cosmology and AI for Science" />
         <meta
             property="og:description"
             content="PhD student at the Cavendish Laboratory, University of Cambridge, working on galaxy cluster cosmology and agentic AI for scientific discovery."
@@ -28,10 +25,6 @@
         <meta property="og:image" content="assets/images/tom-borrett.jpg" />
         <meta property="og:url" content="https://tombo367.github.io/" />
         <meta name="twitter:card" content="summary" />
-        <meta
-            name="twitter:title"
-            content="Tom Borrett | Cosmology and AI for Science"
-        />
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
@@ -41,779 +34,90 @@
                 "url": "https://tombo367.github.io/",
                 "jobTitle": "PhD Student",
                 "affiliation": [
-                    {
-                        "@type": "Organization",
-                        "name": "University of Cambridge"
-                    },
-                    {
-                        "@type": "Organization",
-                        "name": "Kavli Institute for Cosmology, Cambridge"
-                    },
-                    {
-                        "@type": "Organization",
-                        "name": "Infosys-Cambridge AI Centre"
-                    },
-                    {
-                        "@type": "Organization",
-                        "name": "Simons Observatory"
-                    }
+                    { "@type": "Organization", "name": "University of Cambridge" },
+                    { "@type": "Organization", "name": "Kavli Institute for Cosmology, Cambridge" },
+                    { "@type": "Organization", "name": "Infosys-Cambridge AI Centre" }
                 ],
                 "sameAs": [
                     "https://www.kicc.cam.ac.uk/staff/tom-borrett",
                     "https://github.com/tombo367",
                     "https://scholar.google.com/citations?user=3dpnzuIAAAAJ&hl=en",
-                    "https://arxiv.org/search/?query=Thomas+Borrett&searchtype=author&abstracts=show&order=-announced_date_first&size=50",
-                    "https://uk.linkedin.com/in/tom-borrett-50383a227",
-                    "https://letterboxd.com/tombo123/"
+                    "https://uk.linkedin.com/in/tom-borrett-50383a227"
                 ]
             }
         </script>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Marcellus+SC&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap"
             rel="stylesheet"
+            href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css"
+            integrity="sha384-Nq6PQ+9vJPvw7U/VfDELyrWoGQMsy0gi6QShhaSrGzkpF5KkM40csg2leky+YMTd"
+            crossorigin=""
         />
         <link rel="stylesheet" href="styles.css" />
-        <script defer src="script.js"></script>
+        <link rel="preload" href="assets/data/heatmap.json" as="fetch" crossorigin />
     </head>
     <body>
-        <a class="skip-link" href="#main">Skip to content</a>
-        <button
-            class="menu-toggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="site-sidebar"
-        >
-            Menu
-        </button>
-        <div class="page-shell">
-            <header class="site-header" id="site-sidebar">
-                <div class="sidebar-image" aria-hidden="true"></div>
-                <div class="sidebar-shade" aria-hidden="true"></div>
-                <div class="sidebar-content">
-                    <a class="sidebar-portrait" href="#top">
-                        <img
-                            src="assets/images/tom-borrett.jpg"
-                            alt="Portrait of Tom Borrett"
-                            width="750"
-                            height="1000"
-                        />
-                    </a>
-                    <a class="brand" href="#top">Tom Borrett</a>
-                    <p class="sidebar-tagline">
-                        Cosmology, machine learning, and scientific discovery
-                    </p>
-                    <div class="sidebar-social" aria-label="Profiles">
-                        <a href="mailto:tb711@cam.ac.uk">Email</a>
-                        <a href="https://github.com/tombo367" target="_blank" rel="noreferrer">GitHub</a>
-                        <a href="https://www.linkedin.com/in/tom-borrett-50383a227/" target="_blank" rel="noreferrer">LinkedIn</a>
-                    </div>
-                <nav class="site-nav" aria-label="Primary navigation">
-                    <a href="#about">Bio</a>
-                    <a href="#research">Research</a>
-                    <a href="#publications">Articles</a>
-                    <a href="#teaching">Background</a>
-                    <a href="#gallery">Elsewhere</a>
-                    <a href="activities.html">Heatmaps</a>
-                    <a href="#contact">Contact</a>
-                </nav>
-                </div>
+        <main>
+            <header>
+                <h1>Tom Borrett</h1>
+                <p class="subtitle">PhD student · Cavendish Laboratory, University of Cambridge</p>
             </header>
 
-            <main id="main" tabindex="-1">
-                <section class="hero">
-                    <div class="hero-copy">
-                        <p class="eyebrow">
-                            PhD Student, Cavendish Laboratory, University of
-                            Cambridge
-                        </p>
-                        <h1>Cosmology from galaxy clusters and the CMB.</h1>
-                        <p class="hero-text">
-                            I'm a PhD student at the University of Cambridge,
-                            working on cosmology from the cosmic microwave
-                            background and the large-scale structure it
-                            traces. Day to day, that splits into two things:
-                            confirming galaxy clusters picked up via the
-                            thermal Sunyaev-Zel'dovich effect using machine
-                            learning, and building agentic AI systems that can
-                            carry out pieces of that research themselves,
-                            writing the code, running the analysis, and
-                            interpreting what comes out. Both come together at
-                            the Infosys-Cambridge AI Centre, where I'm also
-                            based.
-                        </p>
-                        <ul
-                            class="hero-highlights"
-                            aria-label="Key focus areas"
-                        >
-                            <li>Cluster cosmology</li>
-                            <li>tSZ cluster confirmation</li>
-                            <li>Agentic AI for cosmology</li>
-                        </ul>
-                        <div class="hero-actions">
-                            <a
-                                class="button button-primary"
-                                href="#publications"
-                                >View Publications</a
-                            >
-                            <a
-                                class="button button-secondary"
-                                href="https://scholar.google.com/citations?user=3dpnzuIAAAAJ&hl=en"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                Google Scholar
-                            </a>
-                        </div>
-                    </div>
+            <p>
+                I work on cosmology from galaxy clusters and the cosmic microwave
+                background. Right now that means using machine learning to confirm
+                galaxy clusters detected via the thermal Sunyaev-Zel'dovich effect,
+                and building agentic AI systems, like CMBAgent,
+                that can plan, code, run and interpret pieces of cosmological analysis
+                themselves. I'm supervised by
+                <a href="https://borisbolliet.github.io/" target="_blank" rel="noreferrer">Boris Bolliet</a>
+                and affiliated with the Kavli Institute for Cosmology and the
+                Infosys-Cambridge AI Centre. Before this I did an MPhil in Data
+                Intensive Science at Cambridge, on parameter inference with
+                diffusion models.
+            </p>
 
-                    <aside class="profile-card">
-                        <div class="profile-photo-frame">
-                            <img
-                                class="profile-photo"
-                                src="assets/images/tom-borrett.jpg"
-                                alt="Portrait of Tom Borrett"
-                                width="750"
-                                height="1000"
-                                fetchpriority="high"
-                            />
-                        </div>
-                        <div class="profile-meta">
-                            <h2>Tom Borrett</h2>
-                            <p>Cavendish Laboratory</p>
-                            <p>University of Cambridge</p>
-                            <p>Cambridge, United Kingdom</p>
-                        </div>
-                        <ul class="profile-links">
-                            <li>
-                                <a href="mailto:tb711@cam.ac.uk"
-                                    >tb711@cam.ac.uk</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    href="https://www.kicc.cam.ac.uk/staff/tom-borrett"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    >KICC profile</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    href="https://github.com/tombo367"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    >GitHub</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    href="https://www.linkedin.com/in/tom-borrett-50383a227/"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    >LinkedIn</a
-                                >
-                            </li>
-                        </ul>
-                    </aside>
-                </section>
+            <h2>Publications</h2>
+            <ul>
+                <li>
+                    <span class="year">2026</span>
+                    <a href="https://arxiv.org/abs/2604.09621" target="_blank" rel="noreferrer">Competing with AI Scientists: Agent-Driven Approach to Astrophysics Research</a>
+                    <span class="meta"><strong>T. Borrett</strong>, L. Xu, A. Nilipour, B. Bolliet, et al. · arXiv:2604.09621</span>
+                </li>
+            </ul>
 
-                <section class="grid-section" id="about">
-                    <div class="section-heading">
-                        <p class="section-label">About me</p>
-                        <h2>About</h2>
-                    </div>
-                    <div class="section-content prose">
-                        <p>
-                            I'm based at the Cavendish Laboratory, University
-                            of Cambridge, where I work on cosmology, mostly
-                            pulling cosmological information out of galaxy
-                            clusters and the cosmic microwave background. I'm
-                            also affiliated with the Kavli Institute for
-                            Cosmology and the Infosys-Cambridge AI Centre.
-                        </p>
-                        <p>
-                            At the moment I'm working on confirming clusters
-                            detected via the thermal Sunyaev-Zel'dovich (tSZ)
-                            effect, using machine learning. tSZ surveys throw
-                            up a lot of candidates, but not all of them turn
-                            out to be real clusters, so getting that
-                            confirmation step right matters if the resulting
-                            catalogue is going to be much use for cosmology.
-                            I'm supervised by
-                            <a
-                                href="https://borisbolliet.github.io/"
-                                target="_blank"
-                                rel="noreferrer"
-                                class="inline-link"
-                                >Boris Bolliet</a
-                            >.
-                        </p>
-                        <p>
-                            Alongside that, I work on agentic AI for
-                            scientific discovery in cosmology: systems like
-                            CMBAgent that can plan an analysis, write the
-                            code, run it, and interpret the results, more like
-                            a research collaborator than a script you run
-                            once. I'm interested in how far that kind of
-                            agent-driven approach can go, and what it means
-                            for the way cosmology gets done.
-                        </p>
-                        <p>
-                            This all started with my MPhil dissertation in
-                            Data Intensive Science at Cambridge, where I
-                            looked at parameter inference using diffusion
-                            models. It's stuck with me since, in how I think
-                            about using machine learning for cosmology.
-                        </p>
-                        <p>
-                            Outside research, I enjoy sport and can often be
-                            found rowing on the River Cam. I also love being
-                            outdoors, whether that's hiking a new trail or
-                            exploring a city I haven't visited before, so my
-                            weekends and holidays tend to be spent outside
-                            wherever possible.
-                        </p>
-                    </div>
-                </section>
+            <h2>Links</h2>
+            <ul class="links">
+                <li><a href="mailto:tb711@cam.ac.uk">Email</a></li>
+                <li><a href="https://scholar.google.com/citations?user=3dpnzuIAAAAJ&hl=en" target="_blank" rel="noreferrer">Google Scholar</a></li>
+                <li><a href="https://github.com/tombo367" target="_blank" rel="noreferrer">GitHub</a></li>
+                <li><a href="https://www.linkedin.com/in/tom-borrett-50383a227/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+            </ul>
 
-                <section
-                    class="grid-section research-section"
-                    id="research"
-                >
-                    <div class="section-heading">
-                        <p class="section-label">What I study</p>
-                        <h2>Current themes</h2>
-                    </div>
-                    <div class="cards">
-                        <article class="card">
-                            <p class="card-index">01</p>
-                            <h3>tSZ cluster confirmation</h3>
-                            <p>
-                                Working out which cluster candidates picked up
-                                via the thermal Sunyaev-Zel'dovich effect are
-                                real, and which are noise, using machine
-                                learning.
-                            </p>
-                        </article>
-                        <article class="card">
-                            <p class="card-index">02</p>
-                            <h3>Cosmology from the CMB</h3>
-                            <p>
-                                Pulling cosmological constraints out of CMB
-                                data, including secondary effects like the
-                                thermal Sunyaev-Zel'dovich signal.
-                            </p>
-                        </article>
-                        <article class="card">
-                            <p class="card-index">03</p>
-                            <h3>Agentic AI for discovery</h3>
-                            <p>
-                                Building agentic tools, like CMBAgent, that
-                                can write code and run pipelines alongside a
-                                human scientist.
-                            </p>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="grid-section" id="publications">
-                    <div class="section-heading">
-                        <p class="section-label">My work</p>
-                        <h2>Selected work</h2>
-                    </div>
-                    <div class="publication-list">
-                        <article class="publication">
-                            <p class="publication-year">2026</p>
-                            <div>
-                                <h3>
-                                    Competing with AI Scientists: Agent-Driven
-                                    Approach to Astrophysics Research
-                                </h3>
-                                <p class="publication-meta">
-                                    Thomas Borrett, Licong Xu, Andy Nilipour,
-                                    Boris Bolliet, Sebastien Pierre, Erwan
-                                    Allys, Celia Lecat, Biwei Dai, Po-Wen Chang,
-                                    Wahid Bhimji. <span>arXiv:2604.09621</span>
-                                </p>
-                                <p>
-                                    An agent-driven approach to cosmological
-                                    parameter inference using CMBAgent,
-                                    showing that a semi-autonomous AI workflow
-                                    can hold its own against expert-designed
-                                    solutions in a real scientific challenge.
-                                </p>
-                                <div class="publication-links">
-                                    <a
-                                        href="https://arxiv.org/abs/2604.09621"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        >arXiv</a
-                                    >
-                                    <a
-                                        href="https://neurips.cc/virtual/2025/136457"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        >Workshop</a
-                                    >
-                                    <a
-                                        href="https://scholar.google.com/citations?user=3dpnzuIAAAAJ&hl=en"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        >Scholar</a
-                                    >
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="split-section" id="teaching">
-                    <div class="split-panel">
-                        <div class="section-heading section-heading-compact">
-                            <p class="section-label">Where I am</p>
-                            <h2>Current roles</h2>
-                        </div>
-                        <div
-                            class="info-list"
-                            role="list"
-                            aria-label="Affiliations"
-                        >
-                            <article class="info-item" role="listitem">
-                                <p class="info-kicker">Primary</p>
-                                <h3>Cavendish Laboratory</h3>
-                                <p>PhD Student, University of Cambridge</p>
-                            </article>
-                            <article class="info-item" role="listitem">
-                                <p class="info-kicker">Associated institute</p>
-                                <h3>
-                                    Kavli Institute for Cosmology, Cambridge
-                                </h3>
-                                <p>
-                                    Research links across cosmology, inference,
-                                    and computational methods.
-                                </p>
-                            </article>
-                            <article class="info-item" role="listitem">
-                                <p class="info-kicker">Research centre</p>
-                                <h3>Infosys-Cambridge AI Centre</h3>
-                                <p>
-                                    Applying machine learning, including
-                                    agentic AI systems, to cosmology and to
-                                    scientific discovery more widely.
-                                </p>
-                            </article>
-                            <article class="info-item" role="listitem">
-                                <p class="info-kicker">Collaboration</p>
-                                <h3>Simons Observatory</h3>
-                                <p>
-                                    Member of the Simons Observatory
-                                    collaboration.
-                                </p>
-                            </article>
-                            <article class="info-item" role="listitem">
-                                <p class="info-kicker">Supervisor</p>
-                                <h3>Boris Bolliet</h3>
-                                <p>
-                                    My PhD supervisor is
-                                    <a
-                                        href="https://borisbolliet.github.io/"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        >Boris Bolliet</a
-                                    >.
-                                </p>
-                            </article>
-                        </div>
-                    </div>
-                    <div class="split-panel">
-                        <div class="section-heading section-heading-compact">
-                            <p class="section-label">How I got here</p>
-                            <h2>Academic history</h2>
-                        </div>
-                        <div
-                            class="info-list"
-                            role="list"
-                            aria-label="Academic history"
-                        >
-                            <article class="info-item" role="listitem">
-                                <p class="info-kicker">2025-Current</p>
-                                <h3>PhD</h3>
-                                <p>
-                                    PhD Student, Cavendish Laboratory,
-                                    University of Cambridge
-                                </p>
-                            </article>
-                            <article class="info-item" role="listitem">
-                                <p class="info-kicker">2024 to 2025</p>
-                                <h3>MPhil in Data Intensive Science</h3>
-                                <p>University of Cambridge</p>
-                            </article>
-                            <article class="info-item" role="listitem">
-                                <p class="info-kicker">2021 to 2024</p>
-                                <h3>BA in Natural Sciences</h3>
-                                <p>
-                                    University of Cambridge, with Part II
-                                    Astrophysics
-                                </p>
-                            </article>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="grid-section">
-                    <div class="section-heading">
-                        <p class="section-label">Find me online</p>
-                        <h2>Profiles and links</h2>
-                    </div>
-                    <div class="link-groups">
-                        <div class="link-group">
-                            <p class="info-kicker">Academic &amp; research</p>
-                            <div
-                                class="link-list"
-                                role="list"
-                                aria-label="Academic and research links"
-                            >
-                                <a
-                                    class="link-card"
-                                    data-service="kicc"
-                                    href="https://www.kicc.cam.ac.uk/staff/tom-borrett"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    role="listitem"
-                                >
-                                    <span class="link-card-content">
-                                        <span class="link-card-label">KICC</span>
-                                        <strong>KICC profile</strong>
-                                    </span>
-                                    <span class="link-card-icon" aria-hidden="true">
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M4 19H20M6 19V9L12 5L18 9V19M9 12H9.01M12 12H12.01M15 12H15.01M10 19V15H14V19"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="1.6"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                            />
-                                        </svg>
-                                    </span>
-                                </a>
-                                <a
-                                    class="link-card"
-                                    data-service="scholar"
-                                    href="https://scholar.google.com/citations?user=3dpnzuIAAAAJ&hl=en"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    role="listitem"
-                                >
-                                    <span class="link-card-content">
-                                        <span class="link-card-label">Scholar</span>
-                                        <strong>Tom Borrett</strong>
-                                    </span>
-                                    <span class="link-card-icon" aria-hidden="true">
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"
-                                                fill="currentColor"
-                                            />
-                                        </svg>
-                                    </span>
-                                </a>
-                                <a
-                                    class="link-card"
-                                    data-service="arxiv"
-                                    href="https://arxiv.org/search/?query=Thomas+Borrett&searchtype=author&abstracts=show&order=-announced_date_first&size=50"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    role="listitem"
-                                >
-                                    <span class="link-card-content">
-                                        <span class="link-card-label">arXiv</span>
-                                        <strong>Tom Borrett</strong>
-                                    </span>
-                                    <span class="link-card-icon" aria-hidden="true">
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M3.8423 0a1.0037 1.0037 0 0 0-.922.6078c-.1536.3687-.0438.6275.2938 1.1113l6.9185 8.3597-1.0223 1.1058a1.0393 1.0393 0 0 0 .003 1.4229l1.2292 1.3135-5.4391 6.4444c-.2803.299-.4538.823-.2971 1.1986a1.0253 1.0253 0 0 0 .9585.635.9133.9133 0 0 0 .6891-.3405l5.783-6.126 7.4902 8.0051a.8527.8527 0 0 0 .6835.2597.9575.9575 0 0 0 .8777-.6138c.1577-.377-.017-.7502-.306-1.1407l-7.0518-8.3418 1.0632-1.13a.9626.9626 0 0 0 .0089-1.3165L4.6336.4639s-.3733-.4535-.768-.463zm0 .272h.0166c.2179.0052.4874.2715.5644.3639l.005.006.0052.0055 10.169 10.9905a.6915.6915 0 0 1-.0072.945l-1.0666 1.133-1.4982-1.7724-8.5994-10.39c-.3286-.472-.352-.6183-.2592-.841a.7307.7307 0 0 1 .6704-.4401Zm14.341 1.5701a.877.877 0 0 0-.6554.2418l-5.6962 6.1584 1.6944 1.8319 5.3089-6.5138c.3251-.4335.479-.6603.3247-1.0292a1.1205 1.1205 0 0 0-.9763-.689zm-7.6557 12.2823 1.3186 1.4135-5.7864 6.1295a.6494.6494 0 0 1-.4959.26.7516.7516 0 0 1-.706-.4669c-.1119-.2682.0359-.6864.2442-.9083l.0051-.0055.0047-.0055z"
-                                                fill="currentColor"
-                                            />
-                                        </svg>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="link-group">
-                            <p class="info-kicker">Code &amp; professional</p>
-                            <div
-                                class="link-list"
-                                role="list"
-                                aria-label="Professional links"
-                            >
-                                <a
-                                    class="link-card"
-                                    data-service="github"
-                                    href="https://github.com/tombo367"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    role="listitem"
-                                >
-                                    <span class="link-card-content">
-                                        <span class="link-card-label">GitHub</span>
-                                        <strong>tombo367</strong>
-                                    </span>
-                                    <span class="link-card-icon" aria-hidden="true">
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-                                                fill="currentColor"
-                                            />
-                                        </svg>
-                                    </span>
-                                </a>
-                                <a
-                                    class="link-card"
-                                    data-service="linkedin"
-                                    href="https://www.linkedin.com/in/tom-borrett-50383a227/"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    role="listitem"
-                                >
-                                    <span class="link-card-content">
-                                        <span class="link-card-label">LinkedIn</span>
-                                        <strong>Professional profile</strong>
-                                    </span>
-                                    <span class="link-card-icon" aria-hidden="true">
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M17 2a5 5 0 0 1 5 5v10a5 5 0 0 1 -5 5h-10a5 5 0 0 1 -5 -5v-10a5 5 0 0 1 5 -5zm-9 8a1 1 0 0 0 -1 1v5a1 1 0 0 0 2 0v-5a1 1 0 0 0 -1 -1m6 0a3 3 0 0 0 -1.168 .236l-.125 .057a1 1 0 0 0 -1.707 .707v5a1 1 0 0 0 2 0v-3a1 1 0 0 1 2 0v3a1 1 0 0 0 2 0v-3a3 3 0 0 0 -3 -3m-6 -3a1 1 0 0 0 -.993 .883l-.007 .127a1 1 0 0 0 1.993 .117l.007 -.127a1 1 0 0 0 -1 -1"
-                                                fill="currentColor"
-                                            />
-                                        </svg>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="link-group">
-                            <p class="info-kicker">Personal</p>
-                            <div
-                                class="link-list"
-                                role="list"
-                                aria-label="Personal links"
-                            >
-                                <a
-                                    class="link-card"
-                                    data-service="letterboxd"
-                                    href="https://letterboxd.com/tombo123/"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    role="listitem"
-                                >
-                                    <span class="link-card-content">
-                                        <span class="link-card-label"
-                                            >Letterboxd</span
-                                        >
-                                        <strong>tombo123</strong>
-                                    </span>
-                                    <span class="link-card-icon" aria-hidden="true">
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <circle
-                                                cx="7"
-                                                cy="12"
-                                                r="4.5"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="1.6"
-                                            />
-                                            <circle
-                                                cx="17"
-                                                cy="12"
-                                                r="4.5"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="1.6"
-                                            />
-                                        </svg>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="grid-section">
-                    <div class="section-heading">
-                        <p class="section-label">What I am up to</p>
-                        <h2>Recent updates</h2>
-                    </div>
-                    <div class="news-feed">
-                        <article class="news-item">
-                            <p class="news-date">Current</p>
-                            <p>
-                                Working on cluster confirmation for
-                                tSZ-detected galaxy clusters using machine
-                                learning, alongside ongoing work on agentic AI
-                                systems for cosmology.
-                            </p>
-                        </article>
-                        <article class="news-item">
-                            <p class="news-date">April 2026</p>
-                            <p>
-                                New arXiv paper:
-                                <em
-                                    >Competing with AI Scientists: Agent-Driven
-                                    Approach to Astrophysics Research</em
-                                >.
-                            </p>
-                        </article>
-                        <article class="news-item">
-                            <p class="news-date">December 2025</p>
-                            <p>
-                                Part of the KICC team awarded first place in
-                                Phase 1 of the NeurIPS 2025 FAIR Universe Weak
-                                Lensing Uncertainty Challenge.
-                            </p>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="contact-banner" id="contact">
-                    <div>
-                        <p class="section-label">Get in touch</p>
-                        <h2>Let's talk</h2>
-                        <p>
-                            I'm always happy to hear from fellow researchers,
-                            whether it's about collaborations, talks, or a
-                            project you think I'd enjoy.
-                        </p>
-                    </div>
-                    <div class="contact-actions">
-                        <a
-                            class="button button-primary"
-                            href="mailto:tb711@cam.ac.uk"
-                            >Email Me</a
-                        >
-                        <a
-                            class="button button-secondary"
-                            href="https://www.linkedin.com/in/tom-borrett-50383a227/"
-                            target="_blank"
-                            rel="noreferrer"
-                            >LinkedIn</a
-                        >
-                    </div>
-                </section>
-
-                <section class="grid-section gallery-section" id="gallery">
-                    <div class="section-heading">
-                        <p class="section-label">Away from the desk</p>
-                        <h2>Life outside research</h2>
-                        <p class="section-lede">
-                            Outside of work, I'm drawn to new places: a hiking
-                            trail, a city I've never visited, or any excuse
-                            for a trip away. Closer to home, rowing and
-                            fencing keep me just as busy.
-                        </p>
-                        <p class="section-lede">
-                            <a class="inline-link" href="activities.html">See where I row, run, and ride &rarr;</a>
-                        </p>
-                    </div>
-                    <div
-                        class="gallery-grid"
-                        role="list"
-                        aria-label="Personal photo gallery"
-                    >
-                        <figure class="gallery-item" role="listitem">
-                            <button
-                                class="gallery-trigger"
-                                type="button"
-                                aria-label="Open larger photo: Tom rowing on the water with a crew"
-                            >
-                                <img
-                                    src="assets/images/IMG_5191.JPG"
-                                    alt="Tom rowing on the water with a crew"
-                                    width="1600"
-                                    height="1067"
-                                    loading="lazy"
-                                />
-                            </button>
-                        </figure>
-                        <figure class="gallery-item" role="listitem">
-                            <button
-                                class="gallery-trigger"
-                                type="button"
-                                aria-label="Open larger photo: Tom fencing indoors during a bout"
-                            >
-                                <img
-                                    src="assets/images/8CE70B43-F69A-4733-A7F5-C829E1C548A9_1_105_c.jpeg"
-                                    alt="Tom fencing indoors during a bout"
-                                    width="1086"
-                                    height="724"
-                                    loading="lazy"
-                                />
-                            </button>
-                        </figure>
-                        <figure class="gallery-item" role="listitem">
-                            <button
-                                class="gallery-trigger"
-                                type="button"
-                                aria-label="Open larger photo: Tom hiking in the mountains with a friend"
-                            >
-                                <img
-                                    src="assets/images/1E73659E-8004-42DC-8A34-F3957B123CCE_1_105_c.jpeg"
-                                    alt="Tom hiking in the mountains with a friend"
-                                    width="768"
-                                    height="1024"
-                                    loading="lazy"
-                                />
-                            </button>
-                        </figure>
-                    </div>
-                </section>
-            </main>
-
-            <div
-                class="lightbox"
-                id="lightbox"
-                role="dialog"
-                aria-modal="true"
-                aria-label="Photo viewer"
-                hidden
-            >
-                <button
-                    class="lightbox-close"
-                    type="button"
-                    aria-label="Close photo"
-                >
-                    &times;
-                </button>
-                <img class="lightbox-image" id="lightbox-image" src="" alt="" />
+            <h2>Away from the desk</h2>
+            <p>
+                When I'm not working I'm usually rowing on the Cam, running, or
+                outdoors somewhere. Every Strava activity I've recorded:
+            </p>
+            <ul class="place-picker" id="places" aria-label="Places"></ul>
+            <ul class="sport-picker" id="sports" aria-label="Sports"></ul>
+            <div class="map-frame">
+                <div id="map" role="img" aria-label="Map of activity tracks, coloured by sport"></div>
             </div>
+            <div class="map-caption">
+                <p id="map-summary">Loading activities&hellip;</p>
+                <p>Track ends trimmed for privacy.</p>
+            </div>
+        </main>
 
-            <footer class="site-footer">
-                <p>&copy; <span id="year"></span> Tom Borrett</p>
-                <p>
-                    Built for GitHub Pages with plain HTML, CSS, and JavaScript.
-                </p>
-            </footer>
-        </div>
+        <footer>
+            <p>&copy; 2026 Tom Borrett · Basemap &copy; Esri, &copy; OpenStreetMap contributors.</p>
+        </footer>
+
+        <script
+            src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"
+            integrity="sha384-GfxBM9x46BaAFxtCq39Fxir8fNZ4VDnwgfi6Kzi5/F1tAFsm0amuuV8kd+Pxzuf/"
+            crossorigin=""
+        ></script>
+        <script src="heatmap.js"></script>
     </body>
 </html>

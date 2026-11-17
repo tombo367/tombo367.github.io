@@ -255,7 +255,7 @@
       map.on("mouseleave", "place-dots", () => { map.getCanvas().style.cursor = ""; });
 
       summaryEl.textContent = `${data.tracks.length} activities across ${data.places.length} places. Drag to spin, scroll to zoom, right-drag to tilt.`;
-      // Deep links: activities.html#cambridge, #mont-blanc, ...
+      // Deep links: index.html#cambridge, #mont-blanc, ...
       const slug = (n) => n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       const fromHash = () => {
         const i = data.places.findIndex((p) => slug(p.name) === location.hash.slice(1));

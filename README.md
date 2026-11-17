@@ -4,9 +4,9 @@ This repository is a plain static website designed to publish directly with GitH
 
 ## Files
 
-- `index.html`: site structure and all content sections
-- `styles.css`: visual design and responsive layout
-- `script.js`: small enhancements for reveal animations and footer year
+- `index.html`: the whole site (bio, publications, links, Strava globe)
+- `styles.css`: styling
+- `heatmap.js`: Strava activity globe (data built by `tools/build_heatmap.py`)
 
 ## Publish on GitHub Pages
 
