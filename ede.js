@@ -290,6 +290,98 @@
     realAnim = requestAnimationFrame(step);
   });
 
+  // ---- RMSE -> profile error (ede-analyses/rmse_requirement) ---------------
+  const R = D.rmse;
+  const rmseHost = document.querySelector("#rmse");
+  const fIn = document.querySelector("#rmse-f"), tauIn = document.querySelector("#rmse-tau");
+  const rmseOut = document.querySelector("#rmse-readout");
+  const rmseTip = Plot.tip(rmseHost);
+  const Z = 1, SQN = Math.sqrt(R.n_d), EMAX = 0.065, DMAX = 2.5;
+  const GROUP = {
+    "25k": { color: "#4f7fa8", label: "25k training spectra" },
+    "50k": { color: "#6ea6cf", label: "50k" },
+    "100k": { color: C.accent, label: "100k" },
+    box: { color: C.muted, label: "doubled prior box" },
+  };
+  const named = (g) => !GROUP[g];
+  let rm = null;
+  const bound = (e, lam, sign) => { const s = SQN * e; return s * s + sign * 2 * (Math.sqrt(lam) + Z) * s; };
+  // Largest e with |dchi2| <= tau guaranteed by the bound (emulator_rmse.py).
+  const eReq = (lam, tau) => { const a = Math.sqrt(lam) + Z; return (Math.sqrt(a * a + tau) - a) / SQN; };
+  function drawRmse() {
+    const F = Plot.frame(rmseHost, { height: 300, x: [0, EMAX], y: [-DMAX, DMAX], xfmt: (v) => +(v * 100).toFixed(1) + "%",
+      xlabel: "emulator RMS error, per band power, in units of σ", ylabel: "χ²<tspan dy='4' font-size='9'>emu</tspan><tspan dy='-4'> − χ²</tspan><tspan dy='4' font-size='9'>CLASS</tspan>" });
+    el("line", { x1: F.x.lo, x2: F.x.hi, y1: F.y(0), y2: F.y(0), stroke: C.line }, F.g);
+    const wedge = el("path", { fill: C.warm, "fill-opacity": 0.12, stroke: C.warm, "stroke-opacity": 0.6 }, F.g);
+    const tauBand = el("rect", { x: F.x.lo, width: F.x.hi - F.x.lo, fill: C.gold, "fill-opacity": 0.06 }, F.g);
+    const req = el("line", { stroke: C.gold, "stroke-dasharray": "4 4", y1: F.y.lo, y2: F.y.hi }, F.g);
+    const reqLabel = el("text", { y: F.y.hi - 8, fill: C.gold }, F.svg);
+    const layer = el("g", {}, F.g);
+    const dots = R.emus.map((m) => {
+      const g = GROUP[m.group];
+      return el("circle", { r: named(m.group) ? 4.5 : 3.2, fill: g ? g.color : C.gold, "fill-opacity": g ? 0.85 : 1,
+        stroke: named(m.group) ? "#050d17" : "none" }, layer);
+    });
+    const labels = R.emus.filter((m) => named(m.group)).map((m) => [m, el("text", { fill: C.gold, "font-size": 11 }, F.svg)]);
+    let lx = F.x.hi - 8, ly = F.y.lo + 16;
+    for (const k of ["25k", "50k", "100k", "box"]) {
+      el("circle", { cx: lx - 4, cy: ly - 4, r: 3.2, fill: GROUP[k].color }, F.svg);
+      el("text", { x: lx - 12, y: ly, "text-anchor": "end" }, F.svg).textContent = GROUP[k].label;
+      ly += 15;
+    }
+    rm = { F, wedge, tauBand, req, reqLabel, dots, labels };
+    F.svg.addEventListener("pointermove", (ev) => {
+      const [px, py] = Plot.pointer(F.svg, ev);
+      const i = +fIn.value;
+      let best = null, bd = 150;
+      R.emus.forEach((m) => {
+        const d = (F.x(m.e[i]) - px) ** 2 + (F.y(m.dchi2[i]) - py) ** 2;
+        if (d < bd) { bd = d; best = m; }
+      });
+      if (!best) { rmseTip.hide(); return; }
+      const what = named(best.group) ? best.group : best.group === "box" ? `doubled prior box, ${best.key.includes("nall") ? "all" : "25k"} spectra` : `${best.group} training spectra, seed ${best.key.slice(-1)}`;
+      rmseTip.show(`${what}<br><span class="dim">RMS error</span> ${(best.e[i] * 100).toFixed(2)}% σ · <span class="dim">Δχ²</span> ${best.dchi2[i] >= 0 ? "+" : ""}${best.dchi2[i].toFixed(2)}`,
+        F.x(best.e[i]), F.y(best.dchi2[i]));
+    });
+    F.svg.addEventListener("pointerleave", () => rmseTip.hide());
+    updateRmse();
+  }
+  function updateRmse() {
+    if (!rm) return;
+    const { F, wedge, tauBand, req, reqLabel, dots, labels } = rm;
+    const i = +fIn.value, tau = +tauIn.value, lam = R.lam[i];
+    document.querySelector("#rmse-f-out").textContent = R.fede[i].toFixed(3);
+    document.querySelector("#rmse-tau-out").textContent = tau.toFixed(2);
+    const es = Array.from({ length: 81 }, (_, k) => (k / 80) * EMAX);
+    wedge.setAttribute("d", "M" + es.map((e) => `${F.x(e)},${F.y(Math.min(DMAX * 3, bound(e, lam, 1)))}`).join("L")
+      + "L" + es.slice().reverse().map((e) => `${F.x(e)},${F.y(Math.max(-DMAX * 3, bound(e, lam, -1)))}`).join("L") + "Z");
+    tauBand.setAttribute("y", F.y(tau)); tauBand.setAttribute("height", F.y(-tau) - F.y(tau));
+    const er = eReq(lam, tau);
+    req.setAttribute("x1", F.x(er)); req.setAttribute("x2", F.x(er));
+    reqLabel.setAttribute("x", F.x(er) + 5);
+    reqLabel.textContent = "requirement";
+    let inside = 0, meet = 0, within = 0;
+    R.emus.forEach((m, k) => {
+      dots[k].setAttribute("cx", F.x(m.e[i]));
+      dots[k].setAttribute("cy", F.y(Math.max(-DMAX + 0.05, Math.min(DMAX - 0.05, m.dchi2[i]))));
+      const s = SQN * m.e[i];
+      if (Math.abs(m.dchi2[i] - s * s) <= 2 * (Math.sqrt(lam) + Z) * s) inside++;
+      if (m.e[i] <= er) meet++;
+      if (Math.abs(m.dchi2[i]) <= tau) within++;
+    });
+    labels.forEach(([m, t]) => {
+      t.setAttribute("x", F.x(m.e[i]) + 7);
+      t.setAttribute("y", F.y(Math.max(-DMAX + 0.05, Math.min(DMAX - 0.05, m.dchi2[i]))) + 4);
+      t.textContent = m.group;
+    });
+    const n = R.emus.length;
+    rmseOut.innerHTML = `λ = ${lam.toFixed(2)} · the wedge holds ${inside} of ${n} emulators · `
+      + `<span class="hot">|Δχ²| ≤ ${tau.toFixed(2)} needs RMS error ≤ ${(er * 100).toFixed(2)}% of σ</span>`
+      + ` <span class="dim">· ${meet} of ${n} guarantee it, ${within} achieve it here</span>`;
+  }
+  fIn.addEventListener("input", updateRmse);
+  tauIn.addEventListener("input", updateRmse);
+
   // ---- Agent replay --------------------------------------------------------
   const agentHost = document.querySelector("#agent");
   const RUNS = D.runs;
@@ -372,5 +464,5 @@
     }, reduceMotion ? 20 : 170);
   });
 
-  Plot.onResize(toyHost, () => { drawToy(); drawProfile(); drawReal(); drawAgent(); });
+  Plot.onResize(toyHost, () => { drawToy(); drawProfile(); drawReal(); drawRmse(); drawAgent(); });
 })();

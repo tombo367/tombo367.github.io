@@ -108,6 +108,52 @@
                 point is an upper bound on what a full CLASS profile would give there.
             </p>
 
+            <h2>How accurate is accurate enough?</h2>
+            <p>
+                So how small does an emulator's error need to be? Whiten everything by
+                the data covariance, so each band power's error is measured in units of
+                its own σ, and call the emulator's RMS whitened error <i>e</i>. Over
+                <i>N</i> = 387 ACT and Planck band powers its total error is
+                <i>s</i> = √<i>N</i> <i>e</i>, and the χ² error it causes is
+            </p>
+            <p style="text-align: center">
+                Δχ² = <i>s</i>² − 2 <i>r̂</i>·<i>δ̂</i> &nbsp;⇒&nbsp;
+                |Δχ² − <i>s</i>²| ≤ 2 (√λ + <i>z</i>) <i>s</i>,
+            </p>
+            <p>
+                where <i>δ̂</i> is the emulator error, <i>r̂</i> the data residual and
+                λ the profile's Δχ² at that point. For small errors the <i>s</i>² term
+                is negligible, so the χ² error grows <em>linearly</em> with RMSE, with a
+                slope set by how far the point sits from the best fit. That turns a
+                tolerance on the profile into a requirement on the emulator.
+            </p>
+            <div class="figure" id="rmse"></div>
+            <div class="sliders">
+                <div class="slider">
+                    <label for="rmse-f"><b>f<sub>EDE</sub></b> profile point</label>
+                    <input id="rmse-f" type="range" min="0" max="16" step="1" value="0" />
+                    <output for="rmse-f" id="rmse-f-out"></output>
+                </div>
+                <div class="slider">
+                    <label for="rmse-tau"><b>τ</b> tolerated |Δχ²|</label>
+                    <input id="rmse-tau" type="range" min="0.05" max="1.5" step="0.05" value="0.3" />
+                    <output for="rmse-tau" id="rmse-tau-out"></output>
+                </div>
+            </div>
+            <p class="readout" id="rmse-readout" aria-live="polite"></p>
+            <p class="caption">
+                Each point is one emulator at the chosen profile point:
+                χ²<sub>emulator</sub> − χ²<sub>CLASS</sub> for ACT DR6 + Planck at the
+                same parameters, against its RMS error in units of σ per band power.
+                The shaded wedge is the prediction with <i>z</i> = 1: far from the best
+                fit it holds every emulator, and near it about two thirds, as a 1σ
+                band should. Blues are the
+                same network trained on 25k, 50k and 100k spectra, ten seeds each; grey
+                points were trained on a doubled prior box; gold points are named
+                versions. Hover for details. Move towards the best fit (λ → 0) and the
+                wedge closes, because errors matter far less where the profile is flat.
+            </p>
+
             <h2>An AI agent on the night shift</h2>
             <p>
                 Part of the emulator design was done by an autonomous coding agent. Over
@@ -136,7 +182,7 @@
         </footer>
 
         <script src="plot.js?v=5"></script>
-        <script src="ede.js?v=5"></script>
+        <script src="ede.js?v=6"></script>
         <script src="starfield.js?v=5"></script>
     </body>
 </html>
