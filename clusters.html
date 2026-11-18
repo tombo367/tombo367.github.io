@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Galaxy clusters | Tom Borrett</title>
+        <meta
+            name="description"
+            content="Tom Borrett's project on confirming ACT galaxy clusters and measuring their redshifts from the red sequence in Legacy Survey photometry."
+        />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%AD%3C/text%3E%3C/svg%3E"
+        />
+        <link rel="stylesheet" href="styles.css?v=5" />
+        <link rel="preload" href="assets/data/projects/clusters.json" as="fetch" crossorigin />
+    </head>
+    <body>
+        <main>
+            <header>
+                <nav>
+                    <a href="index.html">Home</a> ·
+                    <a href="clusters.html" aria-current="page">Galaxy clusters</a> ·
+                    <a href="ede.html">Early dark energy</a> ·
+                    <a href="cv.pdf">CV</a>
+                </nav>
+                <h1>Galaxy clusters</h1>
+                <p class="subtitle">Confirming ACT clusters and measuring how far away they are</p>
+            </header>
+
+            <p>
+                Galaxy clusters are the largest gravitationally bound objects in the
+                Universe, and how many there are, at each mass and redshift, is a
+                sensitive test of cosmology. The Atacama Cosmology Telescope finds them
+                through the thermal Sunyaev–Zel'dovich effect: hot gas in a cluster
+                scatters CMB photons to higher energies, leaving a small shadow in the
+                microwave sky. That shadow tells you a cluster is there, but not how far
+                away it is. For that you need optical and infrared images.
+            </p>
+            <p>
+                The trick is the <em>red sequence</em>. The massive elliptical galaxies
+                at the heart of a cluster stopped forming stars billions of years ago,
+                and they all share nearly the same colour. As the cluster gets more
+                distant, redshift drags their spectral features (above all the 4000 Å
+                break) through the filters, so the colour of the red sequence works as
+                a ruler for redshift. I calibrate that ruler on clusters with
+                spectroscopic redshifts and use it to confirm ACT clusters in Legacy
+                Survey DR11 photometry.
+            </p>
+
+            <h2>Find the redshift</h2>
+            <p>
+                Each dot is a galaxy within θ<sub>500</sub> of an ACT cluster, roughly
+                the cluster's radius. Drag the redshift slider, or the lower plot, and
+                the shaded band shows where the red sequence would sit at that redshift.
+                When the band lines up with the cluster, the number of galaxies inside
+                it jumps far above what an equal patch of empty sky gives. Can you find
+                each cluster's redshift before you reveal the answer?
+            </p>
+            <ul class="place-picker" id="cl-pick" aria-label="Clusters"></ul>
+            <div class="cluster-card" id="cl-card"></div>
+            <div class="figure" id="cmd"></div>
+            <div class="sliders">
+                <div class="slider">
+                    <label for="cl-z"><b>z</b> trial redshift</label>
+                    <input id="cl-z" type="range" min="0.1" max="1.05" step="0.005" value="0.15" />
+                    <output for="cl-z" id="cl-z-out"></output>
+                </div>
+            </div>
+            <p class="readout" id="cl-readout" aria-live="polite"></p>
+            <div class="controls">
+                <span class="label">Colour:</span>
+                <span id="cl-colours"></span>
+            </div>
+            <div class="controls">
+                <button class="btn" id="cl-field" type="button" aria-pressed="false">Show an empty patch of sky</button>
+                <button class="btn" id="cl-reveal" type="button">Reveal the answer</button>
+            </div>
+            <div class="figure" id="lam"></div>
+            <p class="caption">
+                Top: z-band magnitude against colour, from Legacy Survey DR11 g, r, z and
+                WISE W1. The band is my calibrated red-sequence model, ±1σ, from 3
+                magnitudes brighter to 2 fainter than the characteristic magnitude m*.
+                “Auto” picks the colour that straddles the 4000 Å break at the trial
+                redshift. Bottom: the richness λ(z) from my pipeline, a
+                background-subtracted, radially weighted count of red-sequence galaxies
+                using all three colours. It fills in as you explore.
+            </p>
+
+            <h2>Two clusters, one line of sight</h2>
+            <p>
+                Sometimes the sky lines up two clusters behind one another, and
+                ACT-CL J1137.7−0313 is a clear case: λ(z) has two peaks. To handle this
+                I built a Bayesian model in which every galaxy is a Poisson draw from a
+                cluster's red sequence, its other members or the background, and nested
+                sampling weighs up the evidence for zero, one or two clusters. Force it
+                to fit one cluster and it picks the bigger peak; let it fit two and the
+                evidence leaps.
+            </p>
+            <div class="controls" role="group" aria-label="Number of clusters">
+                <button class="btn" id="dbl-1" type="button" aria-pressed="false">Fit one cluster</button>
+                <button class="btn" id="dbl-2" type="button" aria-pressed="true">Fit two clusters</button>
+            </div>
+            <div class="figure" id="double"></div>
+            <p class="readout pn" id="dbl-readout" aria-live="polite"></p>
+
+            <h2>Does it work?</h2>
+            <p>
+                The real test is clusters with spectroscopic redshifts that the method
+                never saw during calibration. Here are 61 ACT clusters confirmed by
+                MCMF, comparing my Bayesian redshift with the spectroscopic one. Hover
+                over or tap a point to see its λ(z).
+            </p>
+            <div class="figure" id="scatter"></div>
+            <div class="figure" id="mini"></div>
+            <p class="caption" id="scatter-caption"></p>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Tom Borrett · Cluster images: Legacy Surveys / D. Lang (Perimeter Institute) · <a href="index.html">Home</a></p>
+        </footer>
+
+        <script src="plot.js?v=5"></script>
+        <script src="clusters.js?v=5"></script>
+        <script src="starfield.js?v=5"></script>
+    </body>
+</html>

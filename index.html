@@ -52,13 +52,18 @@
             integrity="sha384-Nq6PQ+9vJPvw7U/VfDELyrWoGQMsy0gi6QShhaSrGzkpF5KkM40csg2leky+YMTd"
             crossorigin=""
         />
-        <link rel="stylesheet" href="styles.css?v=4" />
+        <link rel="stylesheet" href="styles.css?v=5" />
         <link rel="preload" href="assets/data/heatmap.json" as="fetch" crossorigin />
     </head>
     <body>
         <main>
             <header>
-                <nav><a href="index.html">Home</a> · <a href="cv.pdf">CV</a></nav>
+                <nav>
+                    <a href="index.html" aria-current="page">Home</a> ·
+                    <a href="clusters.html">Galaxy clusters</a> ·
+                    <a href="ede.html">Early dark energy</a> ·
+                    <a href="cv.pdf">CV</a>
+                </nav>
                 <h1>Tom Borrett</h1>
                 <p class="subtitle">PhD student · Cavendish Laboratory, University of Cambridge</p>
             </header>
@@ -76,6 +81,18 @@
                 Intensive Science at Cambridge, on parameter inference with
                 diffusion models.
             </p>
+
+            <h2>Projects</h2>
+            <ul>
+                <li>
+                    <a href="clusters.html">Galaxy clusters</a>
+                    <span class="meta">Confirming ACT clusters and finding their redshifts from the red sequence. Try finding one yourself.</span>
+                </li>
+                <li>
+                    <a href="ede.html">Early dark energy</a>
+                    <span class="meta">How accurate do emulators need to be to test a fix for the Hubble tension? With a toy universe to fit by hand, and an AI agent on the night shift.</span>
+                </li>
+            </ul>
 
             <h2>Publications</h2>
             <ul>

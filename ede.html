@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Early dark energy | Tom Borrett</title>
+        <meta
+            name="description"
+            content="Tom Borrett's project on early dark energy and the Hubble tension: neural-network emulators, profile likelihoods and an autonomous AI agent that designs emulators."
+        />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%AD%3C/text%3E%3C/svg%3E"
+        />
+        <link rel="stylesheet" href="styles.css?v=5" />
+        <link rel="preload" href="assets/data/projects/ede.json" as="fetch" crossorigin />
+    </head>
+    <body>
+        <main>
+            <header>
+                <nav>
+                    <a href="index.html">Home</a> ·
+                    <a href="clusters.html">Galaxy clusters</a> ·
+                    <a href="ede.html" aria-current="page">Early dark energy</a> ·
+                    <a href="cv.pdf">CV</a>
+                </nav>
+                <h1>Early dark energy</h1>
+                <p class="subtitle">Emulators, profile likelihoods and the Hubble tension</p>
+            </header>
+
+            <p>
+                The expansion rate of the Universe today, H<sub>0</sub>, comes out about
+                8% higher when measured directly with supernovae than when inferred from
+                the cosmic microwave background assuming ΛCDM. One proposed fix is
+                <em>early dark energy</em> (EDE): a scalar field that sits frozen in its
+                potential, briefly makes up a few per cent of the energy in the Universe
+                around matter–radiation equality, then rolls down and decays away. That
+                brief kick shrinks the sound horizon, and the CMB then asks for a larger
+                H<sub>0</sub> to compensate.
+            </p>
+            <p>
+                Testing EDE against data like ACT DR6 means running a Boltzmann code
+                such as CLASS millions of times, so we replace it with neural-network
+                emulators that predict the spectra in milliseconds. My project asks how
+                good those emulators need to be. EDE makes that hard: the interesting
+                signal sits at small f<sub>EDE</sub>, and there the parameters that set
+                the shape of the EDE feature stop mattering at all.
+            </p>
+
+            <h2>A toy universe</h2>
+            <p>
+                To build intuition I made a five-parameter toy model with the same
+                pathologies. <i>A</i> and <i>h</i> play the ΛCDM parameters,
+                <i>f</i> is the EDE fraction, and <i>x<sub>c</sub></i> and <i>θ</i> set
+                where the EDE feature sits and its phase. The points are mock data, with
+                noise that grows towards high <i>x</i> like instrument noise at high
+                multipoles. Try fitting them by hand.
+            </p>
+            <div class="figure" id="toy"></div>
+            <div class="sliders" id="toy-sliders"></div>
+            <p class="readout" id="toy-readout" aria-live="polite"></p>
+            <div class="controls">
+                <button class="btn" id="toy-best" type="button">Best fit at this f</button>
+                <button class="btn" id="toy-off" type="button">Switch EDE off</button>
+                <button class="btn" id="toy-truth" type="button">Reset to the truth</button>
+            </div>
+            <p class="caption">
+                The lower panel is the EDE feature on its own. Set <i>f</i> to zero and
+                the <i>x<sub>c</sub></i> and <i>θ</i> sliders do nothing at all: the data
+                cannot tell you where a feature is if it isn't there. “Best fit at this
+                f” holds <i>f</i> fixed and lets an optimiser in your browser find the
+                rest. Notice how <i>h</i> rises and <i>A</i> falls as you raise
+                <i>f</i>, much as H<sub>0</sub> does in the real model.
+            </p>
+
+            <h2>Profile or posterior?</h2>
+            <p>
+                There are two standard ways to ask what the data say about <i>f</i>. The
+                <em>profile likelihood</em> asks: at each <i>f</i>, how well can the best
+                choice of everything else fit? The <em>marginal posterior</em> instead
+                averages over everything else. Near <i>f</i> = 0 every
+                <i>x<sub>c</sub></i> and <i>θ</i> fits equally well, so the posterior
+                piles up prior volume there. In the toy, the profile disfavours
+                <i>f</i> = 0 at Δχ² ≈ 7, while the posterior peaks right beside it.
+            </p>
+            <div class="figure" id="profile"></div>
+            <p class="caption">
+                The gold dot is your fit from above. It should never rise above the
+                profile line; if it does, you've beaten my optimiser.
+            </p>
+
+            <h2>When emulator error matters</h2>
+            <p>
+                Here is a real profile of f<sub>EDE</sub> with ACT DR6 and Planck CMB
+                data, CMB lensing, DESI BAO and Pantheon+ supernovae, computed with
+                emulators. Re-evaluate the same points with CLASS and χ² moves by up to
+                1.8, and it moves most at small f<sub>EDE</sub>: exactly where the profile
+                decides how strongly f<sub>EDE</sub> = 0 is disfavoured.
+            </p>
+            <div class="figure" id="real"></div>
+            <div class="controls">
+                <button class="btn" id="real-toggle" type="button" aria-pressed="false">Re-evaluate with CLASS</button>
+            </div>
+            <p class="caption">
+                Lower panel: χ²<sub>CLASS</sub> − χ²<sub>emulator</sub> at each profile
+                point, almost all of it from the ACT DR6 CMB likelihood. The CLASS curve
+                re-scores the emulator's best fits rather than re-optimising, so each
+                point is an upper bound on what a full CLASS profile would give there.
+            </p>
+
+            <h2>An AI agent on the night shift</h2>
+            <p>
+                Part of the emulator design was done by an autonomous coding agent. Over
+                two overnight runs it proposed a change to the network or its training,
+                trained it under a fixed time budget, scored it on held-out spectra, and
+                kept the change only if the error went down. Most ideas failed, which is
+                what research looks like. Press play to watch it work.
+            </p>
+            <div class="figure" id="agent"></div>
+            <div class="controls">
+                <button class="btn" id="agent-play" type="button">▶ Replay the two nights</button>
+                <span class="label" id="agent-count"></span>
+            </div>
+            <div class="agent-log" id="agent-log" aria-live="off"></div>
+            <p class="caption">
+                Score: fractional RMS error of the TT power spectrum on held-out
+                cosmologies after a fixed training budget (shorter on the first night).
+                Hover over a point to read the agent's own description of the
+                experiment. Arrows mark experiments that went badly enough to leave the
+                plot.
+            </p>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Tom Borrett · <a href="index.html">Home</a></p>
+        </footer>
+
+        <script src="plot.js?v=5"></script>
+        <script src="ede.js?v=5"></script>
+        <script src="starfield.js?v=5"></script>
+    </body>
+</html>

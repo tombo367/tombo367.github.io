@@ -7,6 +7,9 @@ This repository is a plain static website designed to publish directly with GitH
 - `index.html`: the whole site (bio, publications, links, Strava globe)
 - `styles.css`: styling
 - `heatmap.js`: Strava activity globe (data built by `tools/build_heatmap.py`)
+- `clusters.html` + `clusters.js`: galaxy cluster project page (data in `assets/data/projects/clusters.json`)
+- `ede.html` + `ede.js`: early dark energy project page (data in `assets/data/projects/ede.json`)
+- `plot.js`: small SVG plotting helpers shared by the project pages
 
 ## Publish on GitHub Pages
 
