@@ -53,8 +53,8 @@
     // The J2327 box, and lines down to the cutouts.
     const j = pts.find(([c]) => c.name === M.cut.name);
     const half = (M.cut.size_arcmin / 2) * ppa, bx0 = j[1] - half, bx1 = j[1] + half, by1 = j[2] + half;
-    el("rect", { x: bx0, y: j[2] - half, width: 2 * half, height: 2 * half, fill: "none", stroke: C.ink, "stroke-width": 1.5 }, svg);
-    el("text", { x: bx1 + 6, y: j[2] - half + 10, fill: C.ink }, svg).textContent = "RCS2 J2327";
+    el("rect", { x: bx0, y: j[2] - half, width: 2 * half, height: 2 * half, fill: "none", stroke: "#000", "stroke-width": 2 }, svg);
+    el("text", { x: bx1 + 6, y: j[2] - half + 10, fill: "#000", "font-weight": 600 }, svg).textContent = "RCS2 J2327";
     for (const [x0, x1] of [[bx0, 0], [bx1, W]]) {
       el("line", { x1: x0, y1: by1, x2: x1, y2: top2 + 18, stroke: C.ink, "stroke-opacity": 0.3 }, svg);
     }
