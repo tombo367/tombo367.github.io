@@ -9,11 +9,7 @@ r = lambda a, n=4: [round(float(v), n) for v in np.atleast_1d(a)]
 
 m = ToyEDE()
 prof = json.load(open(EDE / "toy_model/output/profile.json"))["profile"]
-s = np.load(EDE / "toy_model/output/samples.npy")
-edges = np.linspace(0, 0.3, 61)
-h, _ = np.histogram(s[:, 2], edges, density=True)
-toy = {"data": r(m.data.numpy(), 4), "profile": [{k: round(v, 4) for k, v in p.items()} for p in prof],
-       "post_edges": r(edges, 3), "post_f": r(h, 3)}
+toy = {"data": r(m.data.numpy(), 4), "profile": [{k: round(v, 4) for k, v in p.items()} for p in prof]}
 
 runs = []
 for row in csv.DictReader(open(EDE / "profiles/agent_progress/agent_runs.csv")):

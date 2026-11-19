@@ -73,20 +73,25 @@
                 <i>f</i>, much as H<sub>0</sub> does in the real model.
             </p>
 
-            <h2>Profile or posterior?</h2>
+            <h2>The profile likelihood</h2>
             <p>
-                There are two standard ways to ask what the data say about <i>f</i>. The
-                <em>profile likelihood</em> asks: at each <i>f</i>, how well can the best
-                choice of everything else fit? The <em>marginal posterior</em> instead
-                averages over everything else. Near <i>f</i> = 0 every
-                <i>x<sub>c</sub></i> and <i>θ</i> fits equally well, so the posterior
-                piles up prior volume there. In the toy, the profile disfavours
-                <i>f</i> = 0 at Δχ² ≈ 7, while the posterior peaks right beside it.
+                The usual way to ask what the data say about <i>f</i> is the
+                <em>profile likelihood</em>: fix <i>f</i>, let everything else find its
+                best fit, and record how much worse that fit is than the overall best,
+                Δχ². Repeat across <i>f</i> and you get a curve whose height measures
+                how strongly each value is disfavoured. In the toy, <i>f</i> = 0 sits at
+                Δχ² ≈ 7, while everything from about 0.02 to 0.3 lies within
+                Δχ² ≈ 2 of the best fit: the data want <i>some</i> EDE, but cannot pin
+                down how much.
             </p>
             <div class="figure" id="profile"></div>
             <p class="caption">
-                The gold dot is your fit from above. It should never rise above the
-                profile line; if it does, you've beaten my optimiser.
+                The gold dot is your fit from above, at its Δχ² above the best fit. It
+                can sit on the curve but never below it; if it does, you've beaten my
+                optimiser. The bumps come from <i>x<sub>c</sub></i> and <i>θ</i> hopping
+                between solutions as <i>f</i> changes. Every conclusion about EDE rests on
+                the height of this curve near <i>f</i> = 0, which is why the next
+                sections ask how much an emulator can move it.
             </p>
 
             <h2>When emulator error matters</h2>
@@ -182,7 +187,7 @@
         </footer>
 
         <script src="plot.js?v=5"></script>
-        <script src="ede.js?v=6"></script>
+        <script src="ede.js?v=8"></script>
         <script src="starfield.js?v=5"></script>
     </body>
 </html>

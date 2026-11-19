@@ -197,38 +197,31 @@
     }, 20);
   });
 
-  // ---- Profile vs posterior -----------------------------------------------
+  // ---- Toy profile likelihood (Delta chi^2) --------------------------------
   const profHost = document.querySelector("#profile");
+  const PMAX = 9;
   let dot = null, dotF = null;
   function drawProfile() {
-    const F = Plot.frame(profHost, { height: 250, x: [0, 0.3], y: [0, 1.12], xlabel: "<tspan font-style='italic'>f</tspan>",
-      ylabel: "relative probability", yticks: [0, 0.5, 1] });
-    // Rebin the 60-bin histogram to 30 bins to calm the sampling noise.
-    const e = D.toy.post_edges.filter((_, i) => i % 2 === 0);
-    const h = e.slice(1).map((_, i) => (D.toy.post_f[2 * i] + D.toy.post_f[2 * i + 1]) / 2);
-    const hmax = Math.max(...h);
-    let d = `M${F.x(e[0])},${F.y(0)}`;
-    h.forEach((v, i) => { d += `L${F.x(e[i])},${F.y(v / hmax)}L${F.x(e[i + 1])},${F.y(v / hmax)}`; });
-    d += `L${F.x(e[e.length - 1])},${F.y(0)}Z`;
-    el("path", { d, fill: C.warm, "fill-opacity": 0.22, stroke: C.warm, "stroke-width": 1.2 }, F.g);
-    const fs = PROFILE.map((q) => q.f);
-    el("path", { d: Plot.path(fs, PROFILE.map((q) => Math.exp(-(q.chi2 - CHI2_MIN) / 2)), F.x, F.y), fill: "none",
-      stroke: C.accent, "stroke-width": 2 }, F.g);
+    const F = Plot.frame(profHost, { height: 250, x: [0, 0.3], y: [0, PMAX], yticks: [0, 2, 4, 6, 8],
+      xlabel: "<tspan font-style='italic'>f</tspan>", ylabel: "Δχ²" });
+    el("line", { x1: F.x.lo, x2: F.x.hi, y1: F.y(1), y2: F.y(1), stroke: C.muted, "stroke-dasharray": "2 4" }, F.g);
+    el("text", { x: F.x.hi - 8, y: F.y(1) - 5, "text-anchor": "end", fill: C.muted }, F.svg).textContent = "Δχ² = 1 (1σ)";
     el("line", { x1: F.x(TRUTH.f), x2: F.x(TRUTH.f), y1: F.y.lo, y2: F.y.hi, stroke: C.ink, "stroke-opacity": 0.3, "stroke-dasharray": "3 4" }, F.g);
-    const lx = F.x.hi - 8;
-    el("text", { x: lx, y: F.y(1.04), "text-anchor": "end", fill: C.accent }, F.svg).textContent = "profile likelihood";
-    el("text", { x: lx, y: F.y(0.92), "text-anchor": "end", fill: C.warm }, F.svg).textContent = "marginal posterior";
-    el("text", { x: F.x(TRUTH.f) + 5, y: F.y(0.06), fill: C.muted }, F.svg).textContent = "truth";
+    el("text", { x: F.x(TRUTH.f) + 5, y: F.y(PMAX - 0.6), fill: C.muted }, F.svg).textContent = "truth";
+    const fs = PROFILE.map((q) => q.f), ds = PROFILE.map((q) => q.chi2 - CHI2_MIN);
+    el("path", { d: Plot.path(fs, ds, F.x, F.y), fill: "none", stroke: C.accent, "stroke-width": 2 }, F.g);
+    fs.forEach((f, i) => el("circle", { cx: F.x(f), cy: F.y(ds[i]), r: 2.4, fill: C.accent }, F.g));
+    el("text", { x: F.x(0) + 8, y: F.y(ds[0]) + 4, fill: C.accent }, F.svg).textContent = `f = 0: Δχ² = ${ds[0].toFixed(1)}`;
     dotF = F;
     dot = el("circle", { r: 5, fill: C.gold, stroke: "#050d17", "stroke-width": 1.5 }, F.svg);
     updateDot();
   }
   function updateDot() {
     if (!dot) return;
-    const p = Math.exp(-(chi2(state) - CHI2_MIN) / 2);
+    const d = chi2(state) - CHI2_MIN;
     dot.setAttribute("cx", dotF.x(state.f));
-    dot.setAttribute("cy", dotF.y(Math.min(1.1, p)));
-    dot.setAttribute("opacity", p > 0.002 ? 1 : 0.35);
+    dot.setAttribute("cy", dotF.y(Math.min(PMAX - 0.15, d)));
+    dot.setAttribute("opacity", d <= PMAX ? 1 : 0.4);
   }
 
   // ---- Real profile: emulator vs CLASS -----------------------------------
