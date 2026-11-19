@@ -1,4 +1,4 @@
-"""ACT CMB map images for clusters.html: the whole nemo quickstart patch at 150 GHz, plus 30 arcmin
+"""ACT CMB map images for clusters.html: the whole nemo quickstart patch at 98 GHz, plus 30 arcmin
 cutouts of ACT-CL J2327.4-0204 at 98 and 150 GHz and in the matched-filtered S/N map.
 
 Run with the nemo environment:
@@ -31,7 +31,7 @@ def load(path):
         return np.squeeze(h[0].data).astype(float), WCS(h[0].header).celestial
 
 
-def save(img, lim, path, cmap="RdBu_r", lo=None):
+def save(img, lim, path, cmap="berlin", lo=None):
     lo = -lim if lo is None else lo
     rgb = colormaps[cmap](np.clip((img - lo) / (lim - lo), 0, 1))[..., :3]
     im = Image.fromarray((rgb[::-1] * 255).astype(np.uint8))  # FITS row 0 is the bottom
@@ -40,10 +40,11 @@ def save(img, lim, path, cmap="RdBu_r", lo=None):
 
 def main():
     IMG.mkdir(parents=True, exist_ok=True)
-    f150, wcs = load(RUN / "maps/f150_1_10_8_map.fits")
-    ny, nx = f150.shape
+    f150, w150 = load(RUN / "maps/f150_1_10_8_map.fits")
+    f090, wcs = load(RUN / "maps/f090_1_10_8_map.fits")
+    ny, nx = f090.shape
     sm = lambda a, arcmin: gaussian_filter(a, arcmin / PIX / 2.355)
-    save(sm(f150, 2.0), WIDE_LIM, IMG / "act_f150_wide.jpg")
+    save(sm(f090, 2.0), WIDE_LIM, IMG / "act_f090_wide.jpg")
 
     cat = Table.read(RUN / "quickstart-clusters/quickstart-clusters_optimalCatalog.fits")
     cat.sort("fixed_SNR", reverse=True)
@@ -55,9 +56,8 @@ def main():
 
     cut = lambda a, w: Cutout2D(a, centre, CUT_SIZE * u.arcmin, wcs=w).data
     up = lambda a: zoom(a, UP, order=3)
-    f090, w090 = load(RUN / "maps/f090_1_10_8_map.fits")
     snr, wsnr = load(RUN / "quickstart-clusters/filteredMaps/stitched_Arnaud_M2e14_z0p4_SNMap.fits")
-    c090, c150 = cut(sm(f090, 1.0), w090), cut(sm(f150, 1.0), wcs)
+    c090, c150 = cut(sm(f090, 1.0), wcs), cut(sm(f150, 1.0), w150)
     lim = 330.0
     save(up(c090), lim, IMG / "j2327_f090.png")
     save(up(c150), lim, IMG / "j2327_f150.png")

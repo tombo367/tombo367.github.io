@@ -25,7 +25,7 @@
     const top2 = Hm + 52, H = top2 + 18 + P + 2;
     const svg = el("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}` });
     cmbHost.prepend(svg);
-    el("image", { href: "assets/images/cmb/act_f150_wide.jpg", x: 0, y: 0, width: W, height: Hm, preserveAspectRatio: "none" }, svg);
+    el("image", { href: "assets/images/cmb/act_f090_wide.jpg", x: 0, y: 0, width: W, height: Hm, preserveAspectRatio: "none" }, svg);
     el("rect", { x: 0.5, y: 0.5, width: W - 1, height: Hm - 1, fill: "none", stroke: C.line }, svg);
 
     // Scale bar and colour bar under the map.
@@ -34,7 +34,7 @@
     el("text", { x: deg + 6, y: yb + 4 }, svg).textContent = "1°";
     const gid = "cmbgrad" + Math.random().toString(36).slice(2);
     const grad = el("linearGradient", { id: gid }, el("defs", {}, svg));
-    ["#053061", "#4393c3", "#f7f7f7", "#d6604d", "#67001f"].forEach((c, i) =>
+    ["#9eb0ff", "#286886", "#190c09", "#7d341e", "#ffadad"].forEach((c, i) =>
       el("stop", { offset: i / 4, "stop-color": c }, grad));
     const cbw = Math.min(160, W * 0.3), cbx = W - cbw;
     el("rect", { x: cbx, y: yb - 5, width: cbw, height: 8, fill: `url(#${gid})` }, svg);
@@ -53,10 +53,10 @@
     // The J2327 box, and lines down to the cutouts.
     const j = pts.find(([c]) => c.name === M.cut.name);
     const half = (M.cut.size_arcmin / 2) * ppa, bx0 = j[1] - half, bx1 = j[1] + half, by1 = j[2] + half;
-    el("rect", { x: bx0, y: j[2] - half, width: 2 * half, height: 2 * half, fill: "none", stroke: "#000", "stroke-width": 2 }, svg);
-    el("text", { x: bx1 + 6, y: j[2] - half + 10, fill: "#000", "font-weight": 600 }, svg).textContent = "RCS2 J2327";
+    el("rect", { x: bx0, y: j[2] - half, width: 2 * half, height: 2 * half, fill: "none", stroke: "#fff", "stroke-width": 1.5 }, svg);
+    el("text", { x: bx1 + 6, y: j[2] - half + 10, fill: "#fff" }, svg).textContent = "RCS2 J2327";
     for (const [x0, x1] of [[bx0, 0], [bx1, W]]) {
-      el("line", { x1: x0, y1: by1, x2: x1, y2: top2 + 18, stroke: C.ink, "stroke-opacity": 0.3 }, svg);
+      el("line", { x1: x0, y1: by1, x2: x1, y2: top2 + 18, stroke: C.ink, "stroke-opacity": 0.5 }, svg);
     }
     const panels = [["j2327_f090.png", "98 GHz"], ["j2327_f150.png", "150 GHz"], ["j2327_snr.png", `matched filter (S/N ≤ ${M.cut.snr_max.toFixed(0)})`]];
     panels.forEach(([f, title], i) => {
