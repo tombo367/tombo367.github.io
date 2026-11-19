@@ -75,14 +75,24 @@
 
             <h2>The profile likelihood</h2>
             <p>
-                The usual way to ask what the data say about <i>f</i> is the
-                <em>profile likelihood</em>: fix <i>f</i>, let everything else find its
-                best fit, and record how much worse that fit is than the overall best,
-                Δχ². Repeat across <i>f</i> and you get a curve whose height measures
-                how strongly each value is disfavoured. In the toy, <i>f</i> = 0 sits at
-                Δχ² ≈ 7, while everything from about 0.02 to 0.3 lies within
-                Δχ² ≈ 2 of the best fit: the data want <i>some</i> EDE, but cannot pin
-                down how much.
+                Those dead sliders are a problem for the usual Bayesian analysis. A
+                marginal posterior for <i>f</i> integrates over everything else, so it
+                rewards regions of parameter space that are merely <em>large</em>, not
+                just regions that fit well. Near <i>f</i> = 0 every value of
+                <i>x<sub>c</sub></i> and <i>θ</i> fits equally well, so that corner
+                carries the whole prior volume of those parameters, and the posterior
+                piles up there even when the data prefer EDE. These <em>volume
+                effects</em> depend on the priors you happened to choose, and they are
+                exactly why EDE constraints from MCMC have been so contested.
+            </p>
+            <p>
+                The profile likelihood sidesteps them. Fix <i>f</i>, let everything else
+                find its best fit, and record how much worse that fit is than the overall
+                best, Δχ². Optimising instead of integrating means a parameter that has
+                stopped mattering costs nothing and gains nothing, so the curve reflects
+                only how well each <i>f</i> can fit the data, whatever the priors. In the
+                toy, <i>f</i> = 0 sits at Δχ² ≈ 7, while everything from about 0.02 to
+                0.3 lies within Δχ² ≈ 2 of the best fit.
             </p>
             <div class="figure" id="profile"></div>
             <p class="caption">

@@ -285,7 +285,7 @@
               15, ["+", 8, ["*", 4, h]],
             ],
             "line-blur": ["interpolate", ["linear"], ["zoom"], 4, ["+", 2, h], 15, ["+", 6, ["*", 2.5, h]]],
-            "line-opacity": ["min", 0.45, ["+", 0.05, ["*", 0.05, h]]],
+            "line-opacity": ["min", 0.32, ["+", 0.04, ["*", 0.035, h]]],
           },
         });
       }
@@ -300,14 +300,14 @@
           filter,
           layout: { "line-cap": "round", "line-join": "round", "line-sort-key": h },
           paint: {
-            "line-color": ["interpolate", ["linear"], h, 0, SPORTS[s].color, 3, SPORTS[s].color, 9, "#ffffff"],
+            "line-color": ["interpolate", ["linear"], h, 0, SPORTS[s].color, 4, SPORTS[s].color, 11, "#ffffff"],
             "line-width": [
               "interpolate", ["linear"], ["zoom"],
               4, ["+", 0.6, ["*", 0.15, h]],
               10, ["+", 1, ["*", 0.4, h]],
               15, ["+", 1.5, ["*", 0.9, h]],
             ],
-            "line-opacity": ["min", 0.95, ["+", 0.35, ["*", 0.1, h]]],
+            "line-opacity": ["min", 0.85, ["+", 0.3, ["*", 0.08, h]]],
           },
         });
       }

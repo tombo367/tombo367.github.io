@@ -3,6 +3,7 @@ import numpy as np
 from pathlib import Path
 from astropy.table import Table
 from scipy.interpolate import BSpline
+import cluster_confirmation as cc  # run with cluster_confirmation/.venv
 
 CC = Path("/Users/tomborrett/documents/Cambridge/PhD/PhD_2/cluster_confirmation")
 OUT = Path(sys.argv[1])
@@ -37,6 +38,51 @@ for row in clusters:
                     "sample": str(bay[cid]["sample"]), "z_cl": r([bay[cid][k] for k in ("z_cl_16", "z_cl_50", "z_cl_84")], 4),
                     "lam": r(rc["richness"][i], 1), "lam_err": r(rc["richness_err"][i], 1)})
 
+
+# lambda(z) for the cluster and for an equal patch of empty sky, with the same estimator as
+# cc.RichnessCalculator.curve_with_error. Masking and depth come from the cluster catalogue
+# columns instead of the randoms, so the cluster curve is checked against the pipeline below.
+class SplineRS:
+    """The custom red-sequence model of scripts/recovery/run_mcmf_template_peaks.py."""
+    def __init__(self, colour):
+        d = {n: np.load(CC / f"packages/cluster_confirmation/models/rs_model_custom/rs_model_{n}_{colour}.npz") for n in "a b sig k".split()}
+        self.s = {n: BSpline(v["t"], v["c"], int(v["k"])) for n, v in d.items()}
+        self.lo, self.hi = d["a"]["z_bins"][0], d["a"]["z_bins"][-1]
+        self.da = self.s["a"].derivative()
+    def predict(self, z, dm):
+        z = np.asarray(z, float); zc = np.clip(z, self.lo, self.hi)
+        return self.s["a"](zc) + self.da(zc) * (z - zc) + self.s["b"](zc) * np.asarray(dm, float)
+    def sigma(self, z, dm=0.0):
+        zc = np.clip(z, self.lo, self.hi)
+        return self.s["sig"](zc) * np.exp(self.s["k"](zc) * np.asarray(dm, float))
+RSM = {c: SplineRS(c) for c in COLOURS}
+colour_models = {c: {"z": RSM[c]} for c in COLOURS}
+sigma_models = {c: {"z": RSM[c].sigma} for c in COLOURS}
+calc = cc.RichnessCalculator.__new__(cc.RichnessCalculator)
+calc.colour_models, calc.sigma_models, calc.colours, calc.reference_band = colour_models, sigma_models, COLOURS, "z"
+with np.load(MODELS / "mstar_fsps.npz") as m:
+    mstar_of = lambda z, _m=dict(m): np.interp(z, _m["redshift"], _m["z"])
+DM_BRIGHT, DM_FAINT, MAX_BKG = -3.0, 2.0, 0.5
+
+def lam_curve(z, g, sep, in_disc, bkg, bkg_area, theta500, row):
+    """lambda(z), error: radially weighted red-sequence galaxies with sep <= theta500(z) among in_disc,
+    minus the background from the galaxies in bkg (total area bkg_area deg^2)."""
+    mag = np.asarray(g["mag_z"], float)[None, :]
+    gal = {"mag_ref": mag[0]}
+    for c in COLOURS:
+        gal[c], gal[f"err_{c}"] = np.asarray(g[c], float), np.asarray(g[f"err_{c}"], float)
+    mstar = mstar_of(z)[:, None]
+    in_colour, w = calc.colour_weights(z, gal, mag - mstar)
+    ok = (mag <= mstar + DM_FAINT) & (mag >= mstar + DM_BRIGHT) & in_colour
+    clus = ok & in_disc[None, :] & (sep[None, :] <= theta500[:, None])
+    n = cc.radial_weights(z, sep, theta500)
+    rich = np.sum(np.where(clus, w * n, 0.0), axis=1)
+    sum_bkg = np.sum(np.where(ok & bkg[None, :], w, 0.0), axis=1)
+    f_in, f_bkg = float(row["frac_unmasked_in"]), float(row["frac_unmasked_bkg"])
+    scale = f_in * theta500 ** 2 / (f_bkg * bkg_area)
+    c_cmp = cc.completeness_correction(mstar[:, 0], float(row["galdepth_z_in"]), DM_BRIGHT, DM_FAINT)
+    return c_cmp / f_in * (rich - scale * sum_bkg), c_cmp / f_in * np.sqrt(rich + scale ** 2 * sum_bkg)
+
 gal = Table.read(CC / "data/galaxies.fits")
 keep = np.isin(gal["cluster_id"].astype(str), SHOW)
 gal = gal[keep]
@@ -46,19 +92,39 @@ for cid in SHOW:
     g = gal[gal["cluster_id"].astype(str) == cid]
     th = float(row["theta500_deg"])
     inside = g[g["separation_deg"] < th]
-    bkg = g[(g["separation_deg"] > 1.5 * th) & (g["separation_deg"] < 0.5)]
-    area_ratio = th ** 2 / (0.5 ** 2 - (1.5 * th) ** 2)
+    zl = np.asarray(rc["z"], float)
+    th_z = cc.M500c_to_theta500(float(row["M500"]), zl)
+    sep = np.asarray(g["separation_deg"], float)
+
+    # Pipeline lambda(z) for the cluster, recomputed here as a check on lam_curve.
+    lam_cl, _ = lam_curve(zl, g, sep, sep >= 0, (sep[None, :] > th_z[:, None]).any(0) & (sep < MAX_BKG),
+                          MAX_BKG ** 2 - th_z ** 2, th_z, row)
+
+    # Empty sky: a random subsample of the outer annulus, with the same area as a disc of radius
+    # R = max theta500(z), placed in that disc at random. The rest of the annulus is its background.
+    ann = (sep > 1.5 * th) & (sep < MAX_BKG)
+    R = float(th_z.max())
+    ann_area = MAX_BKG ** 2 - (1.5 * th) ** 2
     rng = np.random.default_rng(1)
-    nb = int(round(len(bkg) * area_ratio))
-    bkg = bkg[rng.choice(len(bkg), nb, replace=False)]
+    ia = np.flatnonzero(ann)
+    patch = rng.choice(ia, int(round(len(ia) * R ** 2 / ann_area)), replace=False)
+    fsep = sep.copy()
+    fsep[patch] = R * np.sqrt(rng.random(len(patch)))
+    in_patch = np.zeros(len(g), bool); in_patch[patch] = True
+    rest = ann & ~in_patch
+    lam_f, err_f = lam_curve(zl, g, fsep, in_patch, rest, ann_area - R ** 2, th_z, row)
+    bkg = g[in_patch & (fsep < th)]
     def pack(t):
         cols = [t["mag_z"]] + [t[c] for c in COLOURS] + [t["err_" + c] for c in COLOURS] + [t["separation_deg"] / th]
         arr = np.vstack([np.asarray(c, float) for c in cols]).T
         arr = arr[np.isfinite(arr[:, 0]) & (arr[:, 0] < 23.5)]
         return [r(a, 3) for a in arr]
     show[cid] = {"z_spec": round(float(row["z_spec_cluster"]), 4), "theta500_arcmin": round(th * 60, 2),
-                 "inside": pack(inside), "field": pack(bkg)}
-    print(cid, len(show[cid]["inside"]), len(show[cid]["field"]))
+                 "inside": pack(inside), "field": pack(bkg), "field_lam": r(lam_f, 1), "field_lam_err": r(err_f, 1)}
+    pipe = np.asarray(rc["richness"][idx[cid]], float)
+    print(cid, len(show[cid]["inside"]), len(show[cid]["field"]),
+          f"| lam check: max |recomputed - pipeline| = {np.nanmax(np.abs(lam_cl - pipe)):.1f} of peak {np.nanmax(pipe):.0f}",
+          f"| field lam range {np.nanmin(lam_f):.1f}..{np.nanmax(lam_f):.1f}")
 
 d = np.load(CC / "data/results/bayesian_cc/n_clusters_no_f_red_rstemp/ACT-CL_J1137.7-0313_n2.npz")
 names = list(d["param_names"])

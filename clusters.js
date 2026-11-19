@@ -11,6 +11,83 @@
   const { el } = Plot;
   const byId = new Map(D.summary.map((s) => [s.id, s]));
 
+  // ---- CMB map and the J2327 zoom (tools/build_cmb_images.py) ---------------
+  const M = await fetch("assets/data/projects/cmb.json").then((r) => r.json());
+  const cmbHost = document.querySelector("#cmb");
+  const cmbTip = Plot.tip(cmbHost);
+  const marksBtn = document.querySelector("#cmb-marks");
+  let showMarks = false, marks = null;
+  function drawCMB() {
+    cmbHost.querySelectorAll("svg").forEach((x) => x.remove());
+    const W = cmbHost.clientWidth || 600, wd = M.wide;
+    const Hm = W * wd.ny / wd.nx, ppa = W / wd.nx / wd.pix_arcmin; // px per arcmin
+    const gap = Math.max(8, W * 0.025), P = (W - 2 * gap) / 3;
+    const top2 = Hm + 52, H = top2 + 18 + P + 2;
+    const svg = el("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}` });
+    cmbHost.prepend(svg);
+    el("image", { href: "assets/images/cmb/act_f150_wide.jpg", x: 0, y: 0, width: W, height: Hm, preserveAspectRatio: "none" }, svg);
+    el("rect", { x: 0.5, y: 0.5, width: W - 1, height: Hm - 1, fill: "none", stroke: C.line }, svg);
+
+    // Scale bar and colour bar under the map.
+    const deg = 60 * ppa, yb = Hm + 14;
+    el("line", { x1: 0, x2: deg, y1: yb, y2: yb, stroke: C.ink, "stroke-width": 2 }, svg);
+    el("text", { x: deg + 6, y: yb + 4 }, svg).textContent = "1°";
+    const gid = "cmbgrad" + Math.random().toString(36).slice(2);
+    const grad = el("linearGradient", { id: gid }, el("defs", {}, svg));
+    ["#053061", "#4393c3", "#f7f7f7", "#d6604d", "#67001f"].forEach((c, i) =>
+      el("stop", { offset: i / 4, "stop-color": c }, grad));
+    const cbw = Math.min(160, W * 0.3), cbx = W - cbw;
+    el("rect", { x: cbx, y: yb - 5, width: cbw, height: 8, fill: `url(#${gid})` }, svg);
+    el("text", { x: cbx - 6, y: yb + 3, "text-anchor": "end" }, svg).textContent = `−${wd.lim} μK`;
+    el("text", { x: W, y: yb + 20, "text-anchor": "end" }, svg).textContent = `+${wd.lim} μK`;
+
+    // Every nemo detection in the patch, hidden until asked for.
+    const mk = el("g", { visibility: showMarks ? "visible" : "hidden" }, svg);
+    const pts = M.clusters.map((c) => [c, W * c.x, Hm * c.y]);
+    for (const [c, x, y] of pts) {
+      el("circle", { cx: x, cy: y, r: Math.max(4, 2.2 * ppa), fill: "none", stroke: C.gold, "stroke-width": 1.2,
+        "stroke-opacity": 0.9 }, mk);
+    }
+    marks = mk;
+
+    // The J2327 box, and lines down to the cutouts.
+    const j = pts.find(([c]) => c.name === M.cut.name);
+    const half = (M.cut.size_arcmin / 2) * ppa, bx0 = j[1] - half, bx1 = j[1] + half, by1 = j[2] + half;
+    el("rect", { x: bx0, y: j[2] - half, width: 2 * half, height: 2 * half, fill: "none", stroke: C.ink, "stroke-width": 1.5 }, svg);
+    el("text", { x: bx1 + 6, y: j[2] - half + 10, fill: C.ink }, svg).textContent = "RCS2 J2327";
+    for (const [x0, x1] of [[bx0, 0], [bx1, W]]) {
+      el("line", { x1: x0, y1: by1, x2: x1, y2: top2 + 18, stroke: C.ink, "stroke-opacity": 0.3 }, svg);
+    }
+    const panels = [["j2327_f090.png", "98 GHz"], ["j2327_f150.png", "150 GHz"], ["j2327_snr.png", `matched filter (S/N ≤ ${M.cut.snr_max.toFixed(0)})`]];
+    panels.forEach(([f, title], i) => {
+      const x = i * (P + gap);
+      el("text", { x: x + P / 2, y: top2 + 12, "text-anchor": "middle" }, svg).textContent = title;
+      el("image", { href: `assets/images/cmb/${f}`, x, y: top2 + 18, width: P, height: P }, svg);
+      el("rect", { x: x + 0.5, y: top2 + 18.5, width: P - 1, height: P - 1, fill: "none", stroke: C.line }, svg);
+    });
+
+    svg.addEventListener("pointermove", (ev) => {
+      if (!showMarks) { cmbTip.hide(); return; }
+      const [px, py] = Plot.pointer(svg, ev);
+      let best = null, bd = 144;
+      for (const p of pts) {
+        const d = (p[1] - px) ** 2 + (p[2] - py) ** 2;
+        if (d < bd) { bd = d; best = p; }
+      }
+      if (!best) { cmbTip.hide(); return; }
+      cmbTip.show(`${best[0].name}<br><span class="dim">ACT S/N</span> ${best[0].snr.toFixed(1)}`, best[1], best[2]);
+    });
+    svg.addEventListener("pointerleave", () => cmbTip.hide());
+  }
+  marksBtn.addEventListener("click", () => {
+    showMarks = !showMarks;
+    marksBtn.setAttribute("aria-pressed", String(showMarks));
+    marksBtn.textContent = showMarks ? `Hide the ${M.clusters.length} clusters` : "Mark every cluster ACT found here";
+    if (marks) marks.setAttribute("visibility", showMarks ? "visible" : "hidden");
+    if (!showMarks) cmbTip.hide();
+  });
+  Plot.onResize(cmbHost, drawCMB);
+
   // ---- Red-sequence model -------------------------------------------------
   const COLOURS = ["g-r", "r-z", "z-w1"];
   const LABEL = { "g-r": "g − r", "r-z": "r − z", "z-w1": "z − W1" };
@@ -183,15 +260,20 @@
   const lamHost = document.querySelector("#lam");
   let lam = null;
   function drawLam() {
-    const s = byId.get(st.id);
+    const s = byId.get(st.id), sh = D.show[st.id];
+    // In empty-sky mode the curve is the same estimator run on the empty patch, on the cluster's axes.
+    const src = st.field ? { lam: sh.field_lam, lam_err: sh.field_lam_err } : s;
     const ymax = Math.max(...s.lam.map((v, i) => v + (s.lam_err[i] || 0))) * 1.08;
-    const F = Plot.frame(lamHost, { height: 170, x: [0.1, 1.05], y: [0, ymax], xlabel: "redshift z", ylabel: "λ(z)" });
-    const bandP = el("path", { fill: C.accent, "fill-opacity": 0.15 }, F.g);
-    const lineP = el("path", { fill: "none", stroke: C.accent, "stroke-width": 2 }, F.g);
+    const ymin = st.field ? Math.min(0, ...src.lam.map((v, i) => (D.lam_z[i] <= 1.05 && v != null ? v - src.lam_err[i] : 0))) * 1.08 : 0;
+    const F = Plot.frame(lamHost, { height: 170, x: [0.1, 1.05], y: [ymin, ymax], xlabel: "redshift z", ylabel: "λ(z)" });
+    if (ymin < 0) el("line", { x1: F.x.lo, x2: F.x.hi, y1: F.y(0), y2: F.y(0), stroke: C.line }, F.g);
+    const col = st.field ? C.muted : C.accent;
+    const bandP = el("path", { fill: col, "fill-opacity": 0.15 }, F.g);
+    const lineP = el("path", { fill: "none", stroke: col, "stroke-width": 2 }, F.g);
     const spec = el("line", { y1: F.y.lo, y2: F.y.hi, stroke: C.gold, "stroke-width": 1.5, "stroke-dasharray": "5 4" }, F.g);
     const cursor = el("line", { y1: F.y.lo, y2: F.y.hi, stroke: C.warm, "stroke-width": 1.5 }, F.g);
     const hint = el("text", { x: (F.x.lo + F.x.hi) / 2, y: (F.y.lo + F.y.hi) / 2, "text-anchor": "middle" }, F.svg);
-    lam = { F, bandP, lineP, spec, cursor, hint, s };
+    lam = { F, bandP, lineP, spec, cursor, hint, s: src, zSpec: s.z_spec, ymin };
     const drag = (ev) => {
       const [px] = Plot.pointer(F.svg, ev);
       setZ(Math.min(1.05, Math.max(0.1, F.x.invert(px))));
@@ -203,7 +285,7 @@
   }
   function updateLam() {
     if (!lam) return;
-    const { F, bandP, lineP, spec, cursor, hint, s } = lam;
+    const { F, bandP, lineP, spec, cursor, hint, s, zSpec, ymin } = lam;
     const seen = st.visited[st.id], all = st.revealed[st.id];
     const z = D.lam_z;
     const vis = (i) => all || seen.has(i);
@@ -214,7 +296,7 @@
     const flush = () => {
       if (seg.length > 1) {
         d += "M" + seg.map((i) => `${F.x(z[i])},${F.y(s.lam[i] + s.lam_err[i])}`).join("L");
-        d += "L" + seg.slice().reverse().map((i) => `${F.x(z[i])},${F.y(Math.max(0, s.lam[i] - s.lam_err[i]))}`).join("L") + "Z";
+        d += "L" + seg.slice().reverse().map((i) => `${F.x(z[i])},${F.y(Math.max(ymin, s.lam[i] - s.lam_err[i]))}`).join("L") + "Z";
       }
       seg = [];
     };
@@ -222,8 +304,8 @@
     flush();
     bandP.setAttribute("d", d);
     cursor.setAttribute("x1", F.x(st.z)); cursor.setAttribute("x2", F.x(st.z));
-    spec.setAttribute("x1", F.x(s.z_spec)); spec.setAttribute("x2", F.x(s.z_spec));
-    spec.setAttribute("visibility", all ? "visible" : "hidden");
+    spec.setAttribute("x1", F.x(zSpec)); spec.setAttribute("x2", F.x(zSpec));
+    spec.setAttribute("visibility", all && !st.field ? "visible" : "hidden");
     hint.textContent = seen.size < 6 && !all ? "drag here to scan in redshift" : "";
   }
 
@@ -262,6 +344,7 @@
     fieldBtn.setAttribute("aria-pressed", String(st.field));
     fieldBtn.textContent = st.field ? "Back to the cluster" : "Show an empty patch of sky";
     drawCMD();
+    drawLam();
   });
 
   // ---- Two clusters on one line of sight ----------------------------------
